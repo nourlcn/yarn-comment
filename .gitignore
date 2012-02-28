@@ -7,5 +7,6 @@
 .project
 .settings
 target
+*/mybin/*
 hadoop-hdfs-project/hadoop-hdfs/downloads
 hadoop-hdfs-project/hadoop-hdfs-httpfs/downloads
