@@ -53,6 +53,15 @@ Release 0.23.3 - UNRELEASED
     HADOOP-8085. Add RPC metrics to ProtobufRpcEngine. (Hari Mankude via
     suresh)
 
+    HADOOP-7621. alfredo config should be in a file not readable by users
+                 (Alejandro Abdelnur via atm)
+
+    HADOOP-8098. KerberosAuthenticatorHandler should use _HOST replacement to 
+    resolve principal name (tucu)
+
+    HADOOP-8118.  In metrics2.util.MBeans, change log level to trace for the
+    stack trace of InstanceAlreadyExistsException.  (szetszwo)
+
   OPTIMIZATIONS
 
   BUG FIXES
@@ -79,7 +88,14 @@ Release 0.23.3 - UNRELEASED
     HADOOP-7931. o.a.h.ipc.WritableRpcEngine should have a way to force
     initialization. (atm)
 
-Release 0.23.2 - UNRELEASED
+    HADOOP-8104. Inconsistent Jackson versions (tucu)
+
+    HADOOP-7940. The Text.clear() method does not clear the bytes as intended. (Csaba Miklos via harsh)
+
+    HADOOP-8119. Fix javac warnings in TestAuthenticationFilter in hadoop-auth.
+    (szetszwo)
+
+Release 0.23.2 - UNRELEASED 
 
   NEW FEATURES
 

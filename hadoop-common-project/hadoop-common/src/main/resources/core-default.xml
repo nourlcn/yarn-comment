@@ -801,8 +801,8 @@
 </property>
 
 <property>
-  <name>hadoop.http.authentication.signature.secret</name>
-  <value>hadoop</value>
+  <name>hadoop.http.authentication.signature.secret.file</name>
+  <value>${user.home}/hadoop-http-auth-signature-secret</value>
   <description>
     The signature secret for signing the authentication tokens.
     If not set a random secret is generated at startup time.
@@ -833,7 +833,7 @@
 
 <property>
   <name>hadoop.http.authentication.kerberos.principal</name>
-  <value>HTTP/localhost@LOCALHOST</value>
+  <value>HTTP/_HOST@LOCALHOST</value>
   <description>
     Indicates the Kerberos principal to be used for HTTP endpoint.
     The principal MUST start with 'HTTP/' as per Kerberos HTTP SPNEGO specification.
