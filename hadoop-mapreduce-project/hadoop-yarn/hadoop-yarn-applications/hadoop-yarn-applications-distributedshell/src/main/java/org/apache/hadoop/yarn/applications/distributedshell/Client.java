@@ -336,10 +336,13 @@ public class Client {
 
     // Use ClientRMProtocol handle to general cluster information 
     GetClusterMetricsRequest clusterMetricsReq = Records.newRecord(GetClusterMetricsRequest.class);
+    //currently GetClusterMetricsRequest.class is empty
+    
     GetClusterMetricsResponse clusterMetricsResp = applicationsManager.getClusterMetrics(clusterMetricsReq);
     LOG.info("Got Cluster metric info from ASM" 
         + ", numNodeManagers=" + clusterMetricsResp.getClusterMetrics().getNumNodeManagers());
 
+    //currently, empty
     GetClusterNodesRequest clusterNodesReq = Records.newRecord(GetClusterNodesRequest.class);
     GetClusterNodesResponse clusterNodesResp = applicationsManager.getClusterNodes(clusterNodesReq);
     LOG.info("Got Cluster node info from ASM");
@@ -425,7 +428,8 @@ public class Client {
     // Create a local resource to point to the destination jar path 
     FileSystem fs = FileSystem.get(conf);
     Path src = new Path(appMasterJar);
-    String pathSuffix = appName + "/" + appId.getId() + "/AppMaster.jar";	    
+    String pathSuffix = appName + "/" + appId.getId() + "/AppMaster.jar";	
+    System.out.println("[ACT-HADOOP]" + "pathSuffix" + pathSuffix);
     Path dst = new Path(fs.getHomeDirectory(), pathSuffix);
     fs.copyFromLocalFile(false, true, src, dst);
     FileStatus destStatus = fs.getFileStatus(dst);
