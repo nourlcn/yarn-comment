@@ -428,9 +428,12 @@ public class Client {
     // Create a local resource to point to the destination jar path 
     FileSystem fs = FileSystem.get(conf);
     Path src = new Path(appMasterJar);
-    String pathSuffix = appName + "/" + appId.getId() + "/AppMaster.jar";	
+    String pathSuffix = appName + "/" + appId.getId() + "/AppMaster.jar";
+      ////
     System.out.println("[ACT-HADOOP]" + "pathSuffix" + pathSuffix);
+      ////default is /user/username
     Path dst = new Path(fs.getHomeDirectory(), pathSuffix);
+      ////if default is HDFS, why copy to HDFS instead of send to nodemanager refer to map task ?
     fs.copyFromLocalFile(false, true, src, dst);
     FileStatus destStatus = fs.getFileStatus(dst);
     LocalResource amJarRsrc = Records.newRecord(LocalResource.class);
@@ -503,6 +506,8 @@ public class Client {
     env.put(DSConstants.DISTRIBUTEDSHELLSCRIPTLOCATION, hdfsShellScriptLocation);
     env.put(DSConstants.DISTRIBUTEDSHELLSCRIPTTIMESTAMP, Long.toString(hdfsShellScriptTimestamp));
     env.put(DSConstants.DISTRIBUTEDSHELLSCRIPTLEN, Long.toString(hdfsShellScriptLen));
+      ////
+      System.out.println("[ACT-HADOOP]amContainer->env hdfsShellScriptLocation is " + hdfsShellScriptLocation);
 
     // Add AppMaster.jar location to classpath 		
     // At some point we should not be required to add 
@@ -510,15 +515,17 @@ public class Client {
     // It should be provided out of the box. 
     // For now setting all required classpaths including
     // the classpath to "." for the application jar
+
+      ////* maybe not well
     String classPathEnv = "${CLASSPATH}"
         + ":./*"
         + ":$HADOOP_CONF_DIR"
-        + ":$HADOOP_COMMON_HOME/share/hadoop/common/*"
-        + ":$HADOOP_COMMON_HOME/share/hadoop/common/lib/*"
-        + ":$HADOOP_HDFS_HOME/share/hadoop/hdfs/*"
-        + ":$HADOOP_HDFS_HOME/share/hadoop/hdfs/lib/*"
-        + ":$YARN_HOME/modules/*"
-        + ":$YARN_HOME/lib/*"
+        + ":$HADOOP_COMMON_HOME/share/hadoop/common/*.jar"
+        + ":$HADOOP_COMMON_HOME/share/hadoop/common/lib/*.jar"
+        + ":$HADOOP_HDFS_HOME/share/hadoop/hdfs/*.jar"
+        + ":$HADOOP_HDFS_HOME/share/hadoop/hdfs/lib/*.jar"
+        + ":$YARN_HOME/modules/*.jar"
+        + ":$YARN_HOME/lib/*.jar"
         + ":./log4j.properties:";
 
     // add the runtime classpath needed for tests to work 
@@ -587,6 +594,7 @@ public class Client {
     // The following are not required for launching an application master 
     // amContainer.setContainerId(containerId);		
 
+      ////appSubmissionContext
     appContext.setAMContainerSpec(amContainer);
 
     // Set the priority for the application master

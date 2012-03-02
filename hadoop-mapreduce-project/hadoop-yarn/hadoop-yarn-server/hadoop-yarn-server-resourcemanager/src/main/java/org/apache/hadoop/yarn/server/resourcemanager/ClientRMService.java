@@ -132,6 +132,10 @@ public class ClientRMService extends AbstractService implements
       NetUtils.createSocketAddr(clientServiceBindAddress,
           YarnConfiguration.DEFAULT_RM_PORT,
           YarnConfiguration.RM_ADDRESS);
+
+      ////
+      System.out.println("[ACT-HADOOP]clientServiceBindAddress is " + clientServiceBindAddress);
+      System.out.println("[ACT-HADOOP]clientBindAddress is " + clientBindAddress);
     super.init(conf);
   }
   

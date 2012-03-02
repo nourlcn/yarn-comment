@@ -18,25 +18,12 @@
 
 package org.apache.hadoop.yarn.api.impl.pb.client;
 
-import java.io.IOException;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.net.InetSocketAddress;
-
+import com.google.protobuf.ServiceException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ipc.RPC;
 import org.apache.hadoop.yarn.api.ContainerManager;
-import org.apache.hadoop.yarn.api.protocolrecords.GetContainerStatusRequest;
-import org.apache.hadoop.yarn.api.protocolrecords.GetContainerStatusResponse;
-import org.apache.hadoop.yarn.api.protocolrecords.StartContainerRequest;
-import org.apache.hadoop.yarn.api.protocolrecords.StartContainerResponse;
-import org.apache.hadoop.yarn.api.protocolrecords.StopContainerRequest;
-import org.apache.hadoop.yarn.api.protocolrecords.StopContainerResponse;
-import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.GetContainerStatusRequestPBImpl;
-import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.GetContainerStatusResponsePBImpl;
-import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.StartContainerRequestPBImpl;
-import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.StartContainerResponsePBImpl;
-import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.StopContainerRequestPBImpl;
-import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.StopContainerResponsePBImpl;
+import org.apache.hadoop.yarn.api.protocolrecords.*;
+import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.*;
 import org.apache.hadoop.yarn.exceptions.YarnRemoteException;
 import org.apache.hadoop.yarn.ipc.ProtoOverHadoopRpcEngine;
 import org.apache.hadoop.yarn.proto.ContainerManager.ContainerManagerService;
@@ -44,7 +31,9 @@ import org.apache.hadoop.yarn.proto.YarnServiceProtos.GetContainerStatusRequestP
 import org.apache.hadoop.yarn.proto.YarnServiceProtos.StartContainerRequestProto;
 import org.apache.hadoop.yarn.proto.YarnServiceProtos.StopContainerRequestProto;
 
-import com.google.protobuf.ServiceException;
+import java.io.IOException;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.net.InetSocketAddress;
 
 public class ContainerManagerPBClientImpl implements ContainerManager {
 
@@ -89,8 +78,12 @@ public class ContainerManagerPBClientImpl implements ContainerManager {
       if (e.getCause() instanceof YarnRemoteException) {
         throw (YarnRemoteException)e.getCause();
       } else if (e.getCause() instanceof UndeclaredThrowableException) {
+          ////
+          System.out.print("[ACT-HADOOP]May be bugs:" + e.getMessage());
         throw (UndeclaredThrowableException)e.getCause();
       } else {
+          ////
+          System.out.print("[ACT-HADOOP]May be bugs:" + e.getMessage());
         throw new UndeclaredThrowableException(e);
       }
     }

@@ -133,6 +133,7 @@ public class ResourceManager extends CompositeService implements Recoverable {
 
     this.conf.setBoolean(Dispatcher.DISPATCHER_EXIT_ON_ERROR_KEY, true);
 
+      //// register event --> eventHandler
     this.rmDispatcher = createDispatcher();
     addIfService(this.rmDispatcher);
 
@@ -149,6 +150,7 @@ public class ResourceManager extends CompositeService implements Recoverable {
     this.rmContext = new RMContextImpl(this.store, this.rmDispatcher,
         this.containerAllocationExpirer, amLivelinessMonitor, tokenRenewer);
 
+      ////when new resourcemanager, new nodesListManager
     addService(nodesListManager);
 
     // Initialize the scheduler
