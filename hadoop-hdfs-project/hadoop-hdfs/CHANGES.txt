@@ -45,6 +45,8 @@ Release 0.23.3 - UNRELEASED
     HDFS-2899. Service protocol changes in DatanodeProtocol to add multiple 
     storages. (suresh)
 
+    HDFS-3021. Use generic type to declare FSDatasetInterface.  (szetszwo)
+
   IMPROVEMENTS
 
     HDFS-2018. Move all journal stream management code into one place.
@@ -93,6 +95,9 @@ Release 0.23.3 - UNRELEASED
     HDFS-2992. Edit log failure trace should include transaction ID of
     error.  (Colin Patrick McCabe via eli)
 
+    HDFS-3030. Remove getProtocolVersion and getProtocolSignature from 
+    translators. (jitendra)
+
   OPTIMIZATIONS
 
   BUG FIXES
@@ -132,6 +137,8 @@ Release 0.23.3 - UNRELEASED
     multiple blocks need recovery. (todd)
 
     HDFS-3020. Fix editlog to automatically sync when buffer is full. (todd)
+
+    HDFS-3038. Add FSEditLog.metrics to findbugs exclude list. (todd via atm)
 
 Release 0.23.2 - UNRELEASED
 

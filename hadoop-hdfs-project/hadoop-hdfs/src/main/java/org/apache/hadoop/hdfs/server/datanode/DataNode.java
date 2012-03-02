@@ -122,6 +122,7 @@ import org.apache.hadoop.hdfs.server.common.HdfsServerConstants.StartupOption;
 import org.apache.hadoop.hdfs.server.common.JspHelper;
 import org.apache.hadoop.hdfs.server.common.StorageInfo;
 import org.apache.hadoop.hdfs.server.common.Util;
+import org.apache.hadoop.hdfs.server.datanode.FSDatasetInterface.FSVolumeInterface;
 import org.apache.hadoop.hdfs.server.datanode.SecureDataNodeStarter.SecureResources;
 import org.apache.hadoop.hdfs.server.datanode.metrics.DataNodeMetrics;
 import org.apache.hadoop.hdfs.server.datanode.web.resources.DatanodeWebHdfsMethods;
@@ -139,7 +140,6 @@ import org.apache.hadoop.hdfs.web.resources.Param;
 import org.apache.hadoop.http.HttpServer;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.ipc.ProtobufRpcEngine;
-import org.apache.hadoop.ipc.ProtocolSignature;
 import org.apache.hadoop.ipc.RPC;
 import org.apache.hadoop.ipc.RemoteException;
 import org.apache.hadoop.ipc.Server;
@@ -370,7 +370,7 @@ public class DataNode extends Configured
   
   volatile boolean shouldRun = true;
   private BlockPoolManager blockPoolManager;
-  public volatile FSDatasetInterface data = null;
+  public volatile FSDatasetInterface<? extends FSVolumeInterface> data = null;
   private String clusterId = null;
 
   public final static String EMPTY_DEL_HINT = "";
@@ -704,9 +704,12 @@ public class DataNode extends Configured
                     // DatanodeProtocol namenode,
                      SecureResources resources
                      ) throws IOException {
-    if(UserGroupInformation.isSecurityEnabled() && resources == null)
-      throw new RuntimeException("Cannot start secure cluster without " +
-      "privileged resources.");
+    if(UserGroupInformation.isSecurityEnabled() && resources == null) {
+      if (!conf.getBoolean("ignore.secure.ports.for.testing", false)) {
+        throw new RuntimeException("Cannot start secure cluster without "
+            + "privileged resources.");
+      }
+    }
 
     // settings global for all BPs in the Data Node
     this.secureResources = resources;
@@ -886,7 +889,7 @@ public class DataNode extends Configured
    * handshake with the the first namenode is completed.
    */
   private void initStorage(final NamespaceInfo nsInfo) throws IOException {
-    final FSDatasetInterface.Factory factory
+    final FSDatasetInterface.Factory<? extends FSDatasetInterface<?>> factory
         = FSDatasetInterface.Factory.getFactory(conf);
     
     if (!factory.isSimulated()) {
@@ -1773,11 +1776,11 @@ public class DataNode extends Configured
   /**
    * This method is used for testing. 
    * Examples are adding and deleting blocks directly.
-   * The most common usage will be when the data node's storage is similated.
+   * The most common usage will be when the data node's storage is simulated.
    * 
    * @return the fsdataset that stores the blocks
    */
-  public FSDatasetInterface getFSDataset() {
+  FSDatasetInterface<?> getFSDataset() {
     return data;
   }
 
@@ -1853,25 +1856,6 @@ public class DataNode extends Configured
     ReplicaInfo r = data.updateReplicaUnderRecovery(oldBlock,
         recoveryId, newLength);
     return new ExtendedBlock(oldBlock.getBlockPoolId(), r);
-  }
-
-  @Override
-  public long getProtocolVersion(String protocol, long clientVersion
-      ) throws IOException {
-    if (protocol.equals(InterDatanodeProtocol.class.getName())) {
-      return InterDatanodeProtocol.versionID; 
-    } else if (protocol.equals(ClientDatanodeProtocol.class.getName())) {
-      return ClientDatanodeProtocol.versionID; 
-    }
-    throw new IOException("Unknown protocol to " + getClass().getSimpleName()
-        + ": " + protocol);
-  }
-
-  @Override
-  public ProtocolSignature getProtocolSignature(String protocol,
-      long clientVersion, int clientMethodsHash) throws IOException {
-    return ProtocolSignature.getProtocolSignature(
-        this, protocol, clientVersion, clientMethodsHash);
   }
 
   /** A convenient class used in block recovery */
