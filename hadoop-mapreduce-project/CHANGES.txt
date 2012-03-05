@@ -72,6 +72,11 @@ Release 0.23.2 - UNRELEASED
     MAPREDUCE-2793. Corrected AppIDs, JobIDs, TaskAttemptIDs to be of correct
     format on the web pages. (Bikas Saha via vinodkv)
 
+    MAPREDUCE-3614. Fixed MR AM to close history file quickly and send a correct
+    final state to the RM when it is killed. (Ravi Prakash via vinodkv)
+
+    MAPREDUCE-3497. Added docs for YARN CLI. (tgraves via acmurthy) 
+
   OPTIMIZATIONS
 
     MAPREDUCE-3901. Modified JobHistory records in YARN to lazily load job and
@@ -163,6 +168,16 @@ Release 0.23.2 - UNRELEASED
 
     MAPREDUCE-3792. Fix "bin/mapred job -list" to display all jobs instead of
     only the jobs owned by the user. (Jason Lowe via vinodkv)
+
+    MAPREDUCE-3929. Fixed output of 'bin/mapred queue -showacl' command to 
+    clarify ACLs for users. (John George via acmurthy) 
+
+    MAPREDUCE-3960. Fix web-proxy to forward request to AM with configured
+    hostname or IP. (tgraves via acmurthy) 
+
+    MAPREDUCE-3897. Fixed computation of maxActiveAppsPerUser for queues by
+    using capacity and not max-capacity since we are already scaling it by
+    userLimitFactor. (Eric Payne via acmurthy) 
 
 Release 0.23.1 - 2012-02-17
 
