@@ -54,7 +54,6 @@ class EditLogBackupOutputStream extends EditLogOutputStream {
     this.nnRegistration = nnReg;
     InetSocketAddress bnAddress =
       NetUtils.createSocketAddr(bnRegistration.getAddress());
-    Storage.LOG.info("EditLogBackupOutputStream connects to: " + bnAddress);
     try {
       this.backupNode =
           new JournalProtocolTranslatorPB(bnAddress, new HdfsConfiguration());
@@ -66,23 +65,13 @@ class EditLogBackupOutputStream extends EditLogOutputStream {
     this.out = new DataOutputBuffer(DEFAULT_BUFFER_SIZE);
   }
   
-  @Override // JournalStream
-  public String getName() {
-    return bnRegistration.getAddress();
-  }
-
-  @Override // JournalStream
-  public JournalType getType() {
-    return JournalType.BACKUP;
-  }
-
   @Override // EditLogOutputStream
-  void write(FSEditLogOp op) throws IOException {
+  public void write(FSEditLogOp op) throws IOException {
     doubleBuf.writeOp(op);
  }
 
   @Override
-  void writeRaw(byte[] bytes, int offset, int length) throws IOException {
+  public void writeRaw(byte[] bytes, int offset, int length) throws IOException {
     throw new IOException("Not supported");
   }
 
@@ -90,7 +79,7 @@ class EditLogBackupOutputStream extends EditLogOutputStream {
    * There is no persistent storage. Just clear the buffers.
    */
   @Override // EditLogOutputStream
-  void create() throws IOException {
+  public void create() throws IOException {
     assert doubleBuf.isFlushed() : "previous data is not flushed yet";
     this.doubleBuf = new EditsDoubleBuffer(DEFAULT_BUFFER_SIZE);
   }
@@ -116,7 +105,7 @@ class EditLogBackupOutputStream extends EditLogOutputStream {
   }
 
   @Override // EditLogOutputStream
-  void setReadyToFlush() throws IOException {
+  public void setReadyToFlush() throws IOException {
     doubleBuf.setReadyToFlush();
   }
 
@@ -138,16 +127,6 @@ class EditLogBackupOutputStream extends EditLogOutputStream {
       backupNode.journal(nnRegistration,
           firstTxToFlush, numReadyTxns, data);
     }
-  }
-
-  /**
-   * There is no persistent storage. Therefore length is 0.<p>
-   * Length is used to check when it is large enough to start a checkpoint.
-   * This criteria should not be used for backup streams.
-   */
-  @Override // EditLogOutputStream
-  long length() throws IOException {
-    return 0;
   }
 
   /**

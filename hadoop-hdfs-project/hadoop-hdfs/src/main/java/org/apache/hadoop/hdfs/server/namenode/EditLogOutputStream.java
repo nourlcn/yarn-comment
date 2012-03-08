@@ -18,18 +18,24 @@
 package org.apache.hadoop.hdfs.server.namenode;
 
 import java.io.IOException;
+
 import static org.apache.hadoop.hdfs.server.common.Util.now;
+
+import org.apache.hadoop.classification.InterfaceAudience;
+import org.apache.hadoop.classification.InterfaceStability;
 
 /**
  * A generic abstract class to support journaling of edits logs into 
  * a persistent storage.
  */
-abstract class EditLogOutputStream implements JournalStream {
+@InterfaceAudience.Private
+@InterfaceStability.Evolving
+public abstract class EditLogOutputStream {
   // these are statistics counters
   private long numSync;        // number of sync(s) to disk
   private long totalTimeSync;  // total time to sync
 
-  EditLogOutputStream() throws IOException {
+  public EditLogOutputStream() throws IOException {
     numSync = totalTimeSync = 0;
   }
 
@@ -39,7 +45,7 @@ abstract class EditLogOutputStream implements JournalStream {
    * @param op operation
    * @throws IOException
    */
-  abstract void write(FSEditLogOp op) throws IOException;
+  abstract public void write(FSEditLogOp op) throws IOException;
 
   /**
    * Write raw data to an edit log. This data should already have
@@ -52,7 +58,7 @@ abstract class EditLogOutputStream implements JournalStream {
    * @param length number of bytes to write
    * @throws IOException
    */
-  abstract void writeRaw(byte[] bytes, int offset, int length)
+  abstract public void writeRaw(byte[] bytes, int offset, int length)
       throws IOException;
 
   /**
@@ -60,7 +66,7 @@ abstract class EditLogOutputStream implements JournalStream {
    * 
    * @throws IOException
    */
-  abstract void create() throws IOException;
+  abstract public void create() throws IOException;
 
   /**
    * Close the journal.
@@ -79,7 +85,7 @@ abstract class EditLogOutputStream implements JournalStream {
    * All data that has been written to the stream so far will be flushed.
    * New data can be still written to the stream while flushing is performed.
    */
-  abstract void setReadyToFlush() throws IOException;
+  abstract public void setReadyToFlush() throws IOException;
 
   /**
    * Flush and sync all data that is ready to be flush 
@@ -99,12 +105,6 @@ abstract class EditLogOutputStream implements JournalStream {
     long end = now();
     totalTimeSync += (end - start);
   }
-
-  /**
-   * Return the size of the current edits log.
-   * Length is used to check when it is large enough to start a checkpoint.
-   */
-  abstract long length() throws IOException;
 
   /**
    * Implement the policy when to automatically sync the buffered edits log
@@ -127,12 +127,7 @@ abstract class EditLogOutputStream implements JournalStream {
   /**
    * Return number of calls to {@link #flushAndSync()}
    */
-  long getNumSync() {
+  protected long getNumSync() {
     return numSync;
-  }
-
-  @Override // Object
-  public String toString() {
-    return getName();
   }
 }

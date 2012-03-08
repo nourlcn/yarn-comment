@@ -37,9 +37,7 @@ import com.google.common.annotations.VisibleForTesting;
  * stores edits in a local file.
  */
 class EditLogFileOutputStream extends EditLogOutputStream {
-  private static Log LOG = LogFactory.getLog(EditLogFileOutputStream.class);;
-
-  private static int EDITS_FILE_HEADER_SIZE_BYTES = Integer.SIZE / Byte.SIZE;
+  private static Log LOG = LogFactory.getLog(EditLogFileOutputStream.class);
 
   private File file;
   private FileOutputStream fp; // file stream for storing edit logs
@@ -73,18 +71,8 @@ class EditLogFileOutputStream extends EditLogOutputStream {
     fc.position(fc.size());
   }
 
-  @Override // JournalStream
-  public String getName() {
-    return file.getPath();
-  }
-
-  @Override // JournalStream
-  public JournalType getType() {
-    return JournalType.FILE;
-  }
-
   @Override
-  void write(FSEditLogOp op) throws IOException {
+  public void write(FSEditLogOp op) throws IOException {
     doubleBuf.writeOp(op);
   }
 
@@ -97,7 +85,7 @@ class EditLogFileOutputStream extends EditLogOutputStream {
    * </ul>
    * */
   @Override
-  void writeRaw(byte[] bytes, int offset, int length) throws IOException {
+  public void writeRaw(byte[] bytes, int offset, int length) throws IOException {
     doubleBuf.writeRaw(bytes, offset, length);
   }
 
@@ -105,7 +93,7 @@ class EditLogFileOutputStream extends EditLogOutputStream {
    * Create empty edits logs file.
    */
   @Override
-  void create() throws IOException {
+  public void create() throws IOException {
     fc.truncate(0);
     fc.position(0);
     doubleBuf.getCurrentBuf().writeInt(HdfsConstants.LAYOUT_VERSION);
@@ -161,7 +149,7 @@ class EditLogFileOutputStream extends EditLogOutputStream {
    * data can be still written to the stream while flushing is performed.
    */
   @Override
-  void setReadyToFlush() throws IOException {
+  public void setReadyToFlush() throws IOException {
     doubleBuf.getCurrentBuf().write(FSEditLogOpCodes.OP_INVALID.getOpCode()); // insert eof marker
     doubleBuf.setReadyToFlush();
   }
@@ -175,7 +163,10 @@ class EditLogFileOutputStream extends EditLogOutputStream {
     if (fp == null) {
       throw new IOException("Trying to use aborted output stream");
     }
-    
+    if (doubleBuf.isFlushed()) {
+      LOG.info("Nothing to flush");
+      return;
+    }
     preallocate(); // preallocate file if necessary
     doubleBuf.flushTo(fp);
     fc.force(false); // metadata updates not needed because of preallocation
@@ -188,16 +179,6 @@ class EditLogFileOutputStream extends EditLogOutputStream {
   @Override
   public boolean shouldForceSync() {
     return doubleBuf.shouldForceSync();
-  }
-  
-  /**
-   * Return the size of the current edit log including buffered data.
-   */
-  @Override
-  long length() throws IOException {
-    // file size - header size + size of both buffers
-    return fc.size() - EDITS_FILE_HEADER_SIZE_BYTES + 
-      doubleBuf.countBufferedBytes();
   }
 
   // allocate a big chunk of data

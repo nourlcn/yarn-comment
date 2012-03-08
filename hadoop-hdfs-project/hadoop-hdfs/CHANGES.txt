@@ -47,6 +47,9 @@ Release 0.23.3 - UNRELEASED
 
     HDFS-3021. Use generic type to declare FSDatasetInterface.  (szetszwo)
 
+    HDFS-2430. The number of failed or low-resource volumes the NN can tolerate
+    should be configurable. (atm)
+
   IMPROVEMENTS
 
     HDFS-2018. Move all journal stream management code into one place.
@@ -98,7 +101,28 @@ Release 0.23.3 - UNRELEASED
     HDFS-3030. Remove getProtocolVersion and getProtocolSignature from 
     translators. (jitendra)
 
+    HDFS-2158. Add JournalSet to manage the set of journals. (jitendra)
+
+    HDFS-2334. Add Closeable to JournalManager. (Ivan Kelly via jitendra)
+
+    HDFS-1580. Add interface for generic Write Ahead Logging mechanisms.
+    (Ivan Kelly via jitendra)
+
+    HDFS-3060. Bump TestDistributedUpgrade#testDistributedUpgrade timeout (eli)
+
+    HDFS-2410. Further cleanup of hardcoded configuration keys and values.
+    (suresh)
+
   OPTIMIZATIONS
+    HDFS-2477. Optimize computing the diff between a block report and the
+               namenode state. (Tomasz Nykiel via hairong)
+
+    HDFS-2495. Increase granularity of write operations in ReplicationMonitor
+    thus reducing contention for write lock. (Tomasz Nykiel via hairong)
+
+    HDFS-2476. More CPU efficient data structure for under-replicated,
+               over-replicated, and invalidated blocks.
+               (Tomasz Nykiel via todd)
 
   BUG FIXES
  
@@ -139,6 +163,15 @@ Release 0.23.3 - UNRELEASED
     HDFS-3020. Fix editlog to automatically sync when buffer is full. (todd)
 
     HDFS-3038. Add FSEditLog.metrics to findbugs exclude list. (todd via atm)
+
+    HDFS-2188. Make FSEditLog create its journals from a list of URIs rather 
+    than NNStorage. (Ivan Kelly via jitendra)
+
+    HDFS-1765. Block Replication should respect under-replication
+    block priority. (Uma Maheswara Rao G via eli)
+
+    HDFS-2285. BackupNode should reject requests to modify namespace.
+    (shv and Uma Maheswara Rao)
 
 Release 0.23.2 - UNRELEASED
 
@@ -216,6 +249,12 @@ Release 0.23.2 - UNRELEASED
 
     HDFS-3012. Exception while renewing delegation token. (Bobby Evans via
     jitendra)
+
+    HDFS-3032. Change DFSClient.renewLease() so that it only retries up to the
+    lease soft-limit.  (Kihwal Lee via szetszwo)
+
+    HDFS-2038. Update TestHDFSCLI to handle relative paths with globs.
+    (Kihwal Lee via szetszwo)
 
 Release 0.23.1 - 2012-02-17 
 
@@ -1217,6 +1256,8 @@ Release 0.23.0 - 2011-11-01
 
     HDFS-2308. NamenodeProtocol.endCheckpoint is vestigial and can be removed.
     (eli)
+
+    HDFS-2507. Allow saveNamespace operations to be canceled. (todd)
 
   OPTIMIZATIONS
 

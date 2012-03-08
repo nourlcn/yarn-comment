@@ -33,6 +33,7 @@ import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_DELEGATION_TOKEN
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_DELEGATION_TOKEN_RENEW_INTERVAL_DEFAULT;
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_DELEGATION_TOKEN_RENEW_INTERVAL_KEY;
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_EDITS_DIR_KEY;
+import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_EDITS_DIR_REQUIRED_KEY;
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_MAX_OBJECTS_DEFAULT;
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_MAX_OBJECTS_KEY;
 import static org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_NAME_DIR_KEY;
@@ -420,6 +421,21 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
   public static Collection<URI> getNamespaceDirs(Configuration conf) {
     return getStorageDirs(conf, DFS_NAMENODE_NAME_DIR_KEY);
   }
+  
+  public static Collection<URI> getNamespaceEditsDirs(Configuration conf) {
+    Collection<URI> editsDirs = getStorageDirs(conf, DFS_NAMENODE_EDITS_DIR_KEY);
+    if (editsDirs.isEmpty()) {
+      // If this is the case, no edit dirs have been explicitly configured.
+      // Image dirs are to be used for edits too.
+      return getNamespaceDirs(conf);
+    } else {
+      return editsDirs;
+    }
+  }
+  
+  public static Collection<URI> getRequiredNamespaceEditsDirs(Configuration conf) {
+    return getStorageDirs(conf, DFS_NAMENODE_EDITS_DIR_REQUIRED_KEY);
+  }
 
   private static Collection<URI> getStorageDirs(Configuration conf,
                                                 String propertyName) {
@@ -449,10 +465,6 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
       dirNames = Collections.singletonList("file:///tmp/hadoop/dfs/name");
     }
     return Util.stringCollectionAsURIs(dirNames);
-  }
-
-  public static Collection<URI> getNamespaceEditsDirs(Configuration conf) {
-    return getStorageDirs(conf, DFS_NAMENODE_EDITS_DIR_KEY);
   }
 
   @Override
@@ -2794,6 +2806,27 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
   }
   
   /**
+   * Cancel an ongoing saveNamespace operation and wait for its
+   * threads to exit, if one is currently in progress.
+   *
+   * If no such operation is in progress, this call does nothing.
+   *
+   * @param reason a reason to be communicated to the caller saveNamespace 
+   * @throws IOException
+   */
+  void cancelSaveNamespace(String reason) throws IOException {
+    readLock();
+    try {
+      checkSuperuserPrivilege();
+      getFSImage().cancelSaveNamespace(reason);
+    } catch (InterruptedException e) {
+      throw new IOException(e);
+    } finally {
+      readUnlock();
+    }
+  }
+  
+  /**
    * Enables/Disables/Checks restoring failed storage replicas if the storage becomes available again.
    * Requires superuser privilege.
    * 
@@ -3354,7 +3387,7 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
   /**
    * Set the total number of blocks in the system. 
    */
-  private void setBlockTotal() {
+  void setBlockTotal() {
     // safeMode is volatile, and may be set to null at any time
     SafeModeInfo safeMode = this.safeMode;
     if (safeMode == null)
@@ -4013,7 +4046,7 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
    * @throws IOException
    */
   Collection<CorruptFileBlockInfo> listCorruptFileBlocks(String path,
-      String startBlockAfter) throws IOException {
+	String[] cookieTab) throws IOException {
 
     readLock();
     try {
@@ -4022,23 +4055,27 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
                               "replication queues have not been initialized.");
       }
       checkSuperuserPrivilege();
-      long startBlockId = 0;
       // print a limited # of corrupt files per call
       int count = 0;
       ArrayList<CorruptFileBlockInfo> corruptFiles = new ArrayList<CorruptFileBlockInfo>();
-      
-      if (startBlockAfter != null) {
-        startBlockId = Block.filename2id(startBlockAfter);
-      }
 
       final Iterator<Block> blkIterator = blockManager.getCorruptReplicaBlockIterator();
+
+      if (cookieTab == null) {
+        cookieTab = new String[] { null };
+      }
+      int skip = getIntCookie(cookieTab[0]);
+      for (int i = 0; i < skip && blkIterator.hasNext(); i++) {
+        blkIterator.next();
+      }
+
       while (blkIterator.hasNext()) {
         Block blk = blkIterator.next();
         INode inode = blockManager.getINode(blk);
+        skip++;
         if (inode != null && blockManager.countNodes(blk).liveReplicas() == 0) {
           String src = FSDirectory.getFullPathName(inode);
-          if (((startBlockAfter == null) || (blk.getBlockId() > startBlockId))
-              && (src.startsWith(path))) {
+          if (src.startsWith(path)){
             corruptFiles.add(new CorruptFileBlockInfo(src, blk));
             count++;
             if (count >= DEFAULT_MAX_CORRUPT_FILEBLOCKS_RETURNED)
@@ -4046,13 +4083,32 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
           }
         }
       }
+      cookieTab[0] = String.valueOf(skip);
       LOG.info("list corrupt file blocks returned: " + count);
       return corruptFiles;
     } finally {
       readUnlock();
     }
   }
-  
+
+  /**
+   * Convert string cookie to integer.
+   */
+  private static int getIntCookie(String cookie){
+    int c;
+    if(cookie == null){
+      c = 0;
+    } else {
+      try{
+        c = Integer.parseInt(cookie);
+      }catch (NumberFormatException e) {
+        c = 0;
+      }
+    }
+    c = Math.max(0, c);
+    return c;
+  }
+
   /**
    * Create delegation token secret manager
    */

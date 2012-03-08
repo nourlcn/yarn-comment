@@ -32,6 +32,9 @@ Release 0.23.3 - UNRELEASED
     HADOOP-7776. Make the Ipc-Header in a RPC-Payload an explicit header.
     (sanjay)
 
+    HADOOP-7717. Move handling of concurrent client fail-overs to
+    RetryInvocationHandler (atm)
+
     HADOOP-7862. Move the support for multiple protocols to lower layer so
     that Writable, PB and Avro can all use it (Sanjay)
 
@@ -64,6 +67,15 @@ Release 0.23.3 - UNRELEASED
 
     HADOOP-7994. Remove getProtocolVersion and getProtocolSignature from the
     client side translator and server side implementation. (jitendra)
+
+    HADOOP-8125. make hadoop-client set of curated jars available in a
+    distribution tarball (rvs via tucu)
+
+    HADOOP-8142. Update versions from 0.23.2 to 0.23.3 in the build files.
+    (szetszwo)
+
+    HADOOP-8141. Add method to SecurityUtil to init krb5 cipher suites.
+    (todd)
 
   OPTIMIZATIONS
 
@@ -175,6 +187,12 @@ Release 0.23.2 - UNRELEASED
     HADOOP-8123. Use java.home rather than env.JAVA_HOME for java in the
     project. (Jonathan Eagles via acmurthy) 
 
+    HADOOP-8064. Remove unnecessary dependency on w3c.org in document processing
+    (Khiwal Lee via bobby)
+
+    HADOOP-8140. dfs -getmerge should process its argments better (Daryn Sharp
+    via bobby)
+
 Release 0.23.1 - 2012-02-17 
 
   INCOMPATIBLE CHANGES
@@ -269,6 +287,9 @@ Release 0.23.1 - 2012-02-17
     projects. (tucu)
 
     HADOOP-7470. Move up to Jackson 1.8.8.  (Enis Soztutar via szetszwo)
+
+    HADOOP-7729. Send back valid HTTP response if user hits IPC port with
+    HTTP GET. (todd)
 
     HADOOP-8027. Visiting /jmx on the daemon web interfaces may print
     unnecessary error in logs. (atm)
@@ -1404,6 +1425,9 @@ Release 0.22.0 - 2011-11-29
     HADOOP-7772. javadoc the topology classes (stevel)
 
     HADOOP-7786. Remove HDFS-specific config keys defined in FsConfig. (eli)
+
+    HADOOP-7358. Improve log levels when exceptions caught in RPC handler
+    (Todd Lipcon via shv)
 
   OPTIMIZATIONS
 
