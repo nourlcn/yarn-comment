@@ -58,7 +58,6 @@ Release 0.23.3 - UNRELEASED
 
     HADOOP-7621. alfredo config should be in a file not readable by users
                  (Alejandro Abdelnur via atm)
-
     HADOOP-8098. KerberosAuthenticatorHandler should use _HOST replacement to 
     resolve principal name (tucu)
 
@@ -76,6 +75,11 @@ Release 0.23.3 - UNRELEASED
 
     HADOOP-8141. Add method to SecurityUtil to init krb5 cipher suites.
     (todd)
+
+    HADOOP-8108. Move method getHostPortString() from NameNode to NetUtils.
+    (Brandon Li via jitendra)
+
+    HADOOP-7557 Make IPC header be extensible (sanjay radia)
 
   OPTIMIZATIONS
 
@@ -109,6 +113,9 @@ Release 0.23.3 - UNRELEASED
 
     HADOOP-8119. Fix javac warnings in TestAuthenticationFilter in hadoop-auth.
     (szetszwo)
+
+    HADOOP-7888. TestFailoverProxy fails intermittently on trunk. (Jason Lowe
+    via atm)
 
 Release 0.23.2 - UNRELEASED 
 

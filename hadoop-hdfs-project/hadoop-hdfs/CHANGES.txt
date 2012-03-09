@@ -113,6 +113,15 @@ Release 0.23.3 - UNRELEASED
     HDFS-2410. Further cleanup of hardcoded configuration keys and values.
     (suresh)
 
+    HDFS-2878. Fix TestBlockRecovery and move it back into main test directory.
+    (todd)
+
+    HDFS-3003. Remove getHostPortString() from NameNode, replace it with
+    NetUtils.getHostPortString(). (Brandon Li via atm)
+
+    HDFS-3014. FSEditLogOp and its subclasses should have toString() method.
+    (Sho Shimauchi via atm)
+
   OPTIMIZATIONS
     HDFS-2477. Optimize computing the diff between a block report and the
                namenode state. (Tomasz Nykiel via hairong)
@@ -123,6 +132,8 @@ Release 0.23.3 - UNRELEASED
     HDFS-2476. More CPU efficient data structure for under-replicated,
                over-replicated, and invalidated blocks.
                (Tomasz Nykiel via todd)
+
+    HDFS-3036. Remove unused method DFSUtil#isDefaultNamenodeAddress. (atm)
 
   BUG FIXES
  
@@ -172,6 +183,8 @@ Release 0.23.3 - UNRELEASED
 
     HDFS-2285. BackupNode should reject requests to modify namespace.
     (shv and Uma Maheswara Rao)
+
+    HDFS-2764. TestBackupNode is racy. (atm)
 
 Release 0.23.2 - UNRELEASED
 
@@ -370,6 +383,9 @@ Release 0.23.1 - 2012-02-17
 
     HDFS-2786. Fix host-based token incompatibilities in DFSUtil. (Kihwal
     Lee via jitendra)
+
+    HDFS-208. name node should warn if only one dir is listed in dfs.name.dir.
+    (Uma Maheswara Rao G via eli)
 
   OPTIMIZATIONS
 

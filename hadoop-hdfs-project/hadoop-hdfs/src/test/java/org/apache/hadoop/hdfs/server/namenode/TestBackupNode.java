@@ -25,8 +25,6 @@ import java.net.InetSocketAddress;
 import java.util.Collections;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.Log4JLogger;
@@ -41,6 +39,7 @@ import org.apache.hadoop.hdfs.server.common.HdfsServerConstants.StartupOption;
 import org.apache.hadoop.hdfs.server.common.Storage.StorageDirectory;
 import org.apache.hadoop.hdfs.server.namenode.FileJournalManager.EditLogFile;
 import org.apache.hadoop.hdfs.server.protocol.NamenodeProtocols;
+import org.apache.hadoop.net.NetUtils;
 import org.apache.hadoop.test.GenericTestUtils;
 import org.apache.log4j.Level;
 import org.junit.Before;
@@ -102,10 +101,10 @@ public class TestBackupNode {
             "checkpoint txid should increase above " + txid);
         Thread.sleep(1000);
       } catch (Exception e) {}
+      // The checkpoint is not done until the nn has received it from the bn
       thisCheckpointTxId = cluster.getNameNode().getFSImage().getStorage()
         .getMostRecentCheckpointTxId();
     } while (thisCheckpointTxId < txid);
-    
     // Check that the checkpoint got uploaded to NN successfully
     FSImageTestUtil.assertNNHasCheckpoints(cluster,
         Collections.singletonList((int)thisCheckpointTxId));
@@ -332,7 +331,7 @@ public class TestBackupNode {
       InetSocketAddress add = backup.getNameNodeAddress();
       // Write to BN
       FileSystem bnFS = FileSystem.get(new Path("hdfs://"
-          + NameNode.getHostPortString(add)).toUri(), conf);
+          + NetUtils.getHostPortString(add)).toUri(), conf);
       boolean canWrite = true;
       try {
         TestCheckpoint.writeFile(bnFS, file3, replication);
