@@ -25,8 +25,14 @@ Release 0.23.3 - UNRELEASED
     MAPREDUCE-3885. Avoid an unnecessary copy for all requests/responses in 
     MRs ProtoOverHadoopRpcEngine. (Devaraj Das via sseth)
 
-	MAPREDUCE-3935. Annotate Counters.Counter and Counters.Group as @Public.
+	  MAPREDUCE-3935. Annotate Counters.Counter and Counters.Group as @Public.
     (tomwhite)
+
+    MAPREDUCE-3991. Streaming FAQ has some wrong instructions about input files 
+    splitting. (harsh)
+
+    MAPREDUCE-3773. Add queue metrics with buckets for job run times. (omalley
+    via acmurthy)
 
   OPTIMIZATIONS
 
@@ -48,6 +54,12 @@ Release 0.23.3 - UNRELEASED
 
     MAPREDUCE-3952. In MR2, when Total input paths to process == 1,
     CombinefileInputFormat.getSplits() returns 0 split. (zhenxiao via tucu)
+
+    MAPREDUCE-3578. Starting nodemanager as root gives "Unknown -jvm option"
+    (tomwhite)
+
+    MAPREDUCE-3348. Fixed a bug in MR client to redirect to JobHistoryServer
+    correctly when RM forgets the app. (Devaraj K via vinodkv)
 
 Release 0.23.2 - UNRELEASED
 
@@ -208,6 +220,9 @@ Release 0.23.2 - UNRELEASED
 
     MAPREDUCE-3975. Default value not set for Configuration parameter
     mapreduce.job.local.dir (Eric Payne via bobby)
+
+    MAPREDUCE-3982. Fixed FileOutputCommitter to not err out for an 'empty-job'
+    whose tasks don't write any outputs. (Robert Joseph Evans via vinodkv)
 
 Release 0.23.1 - 2012-02-17
 
