@@ -1832,6 +1832,7 @@ public class JobConf extends Configuration {
    * @return a jar file that contains the class, or null.
    * @throws IOException
    */
+  ////my_class is wordcount.class in example
   public static String findContainingJar(Class my_class) {
     ClassLoader loader = my_class.getClassLoader();
     String class_file = my_class.getName().replaceAll("\\.", "/") + ".class";

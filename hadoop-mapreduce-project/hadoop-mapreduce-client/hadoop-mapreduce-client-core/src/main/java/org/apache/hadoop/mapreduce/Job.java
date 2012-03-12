@@ -794,7 +794,7 @@ public class Job extends JobContextImpl implements JobContext {
    * @param cls the example class
    */
   public void setJarByClass(Class<?> cls) {
-    ensureState(JobState.DEFINE);
+    ensureState(JobState.DEFINE);////define or running
     conf.setJarByClass(cls);
   }
 
