@@ -6,6 +6,8 @@ Release 0.23.3 - UNRELEASED
 
     HDFS-2676. Remove Avro RPC. (suresh)
 
+    HDFS-2303. Unbundle jsvc. (Roman Shaposhnik and Mingjie Lai via eli)
+
   NEW FEATURES
 
     HDFS-2978. The NameNode should expose name dir statuses via JMX. (atm)
@@ -129,6 +131,9 @@ Release 0.23.3 - UNRELEASED
 
     HDFS-3056.  Add a new interface RollingLogs for DataBlockScanner logging.
     (szetszwo)
+
+    HDFS-2731. Add command to bootstrap the Standby Node's name directories
+    from the Active NameNode. (todd)
 
   OPTIMIZATIONS
     HDFS-2477. Optimize computing the diff between a block report and the
