@@ -65,7 +65,8 @@ class JobSubmitter {
   private ClientProtocol submitClient;
   private String submitHostName;
   private String submitHostAddress;
-  
+
+    ////cluster fs, clientProtocol represent client.
   JobSubmitter(FileSystem submitFs, ClientProtocol submitClient) 
   throws IOException {
     this.submitClient = submitClient;
@@ -132,6 +133,7 @@ class JobSubmitter {
   }
 
   // configures -files, -libjars and -archives.
+    ////default replication is 10
   private void copyAndConfigureFiles(Job job, Path submitJobDir,
       short replication) throws IOException {
     Configuration conf = job.getConfiguration();
@@ -144,7 +146,8 @@ class JobSubmitter {
     String files = conf.get("tmpfiles");
     String libjars = conf.get("tmpjars");
     String archives = conf.get("tmparchives");
-    String jobJar = job.getJar();
+      ////"mapreduce.job.jar"
+      String jobJar = job.getJar();
 
     //
     // Figure out what fs the JobTracker is using.  Copy the
@@ -277,6 +280,7 @@ class JobSubmitter {
    * @param conf
    * @throws IOException
    */
+  ////jobSubmitDir is /tmp staging dir. copy lib\files and so on into jobSubmitDir.
   private void copyAndConfigureFiles(Job job, Path jobSubmitDir) 
   throws IOException {
     Configuration conf = job.getConfiguration();
@@ -322,9 +326,11 @@ class JobSubmitter {
   JobStatus submitJobInternal(Job job, Cluster cluster) 
   throws ClassNotFoundException, InterruptedException, IOException {
 
-    //validate the jobs output specs 
+    //validate the jobs output specs
+      ////check use new api or not. check output validate or not.
     checkSpecs(job);
-    
+
+      ////usually, /tmp/username as staging area.
     Path jobStagingArea = JobSubmissionFiles.getStagingDir(cluster, 
                                                      job.getConfiguration());
     //configure the command line options correctly on the submitting dfs
@@ -343,16 +349,22 @@ class JobSubmitter {
     try {
       conf.set("hadoop.http.filter.initializers", 
           "org.apache.hadoop.yarn.server.webproxy.amfilter.AmFilterInitializer");
-      conf.set(MRJobConfig.MAPREDUCE_JOB_DIR, submitJobDir.toString());
+
+        ////set mapreduce_job_dir as job staging tmp dir.
+        conf.set(MRJobConfig.MAPREDUCE_JOB_DIR, submitJobDir.toString());
       LOG.debug("Configuring job " + jobId + " with " + submitJobDir 
           + " as the submit dir");
       // get delegation token for the dir
-      TokenCache.obtainTokensForNamenodes(job.getCredentials(),
+
+        //secret be stored in TokenCache before job be submitted. and get secret during job running.
+        TokenCache.obtainTokensForNamenodes(job.getCredentials(),
           new Path[] { submitJobDir }, conf);
-      
+
+        ////get secret keys and store them into TokenCache.
       populateTokenCache(conf, job.getCredentials());
 
       copyAndConfigureFiles(job, submitJobDir);
+        ////change job.xml dir to Path.
       Path submitJobFile = JobSubmissionFiles.getJobConfPath(submitJobDir);
       
       // Create the splits for the job
@@ -403,7 +415,9 @@ class JobSubmitter {
       InterruptedException, IOException {
     JobConf jConf = (JobConf)job.getConfiguration();
     // Check the output specification
-    if (jConf.getNumReduceTasks() == 0 ? 
+      ////default reduce num is 1 if do not set mapreduce.job.reduces.
+      ////if not set mapred.mapper.new-api, will use oldMapper API
+    if (jConf.getNumReduceTasks() == 0 ?
         jConf.getUseNewMapper() : jConf.getUseNewReducer()) {
       org.apache.hadoop.mapreduce.OutputFormat<?, ?> output =
         ReflectionUtils.newInstance(job.getOutputFormatClass(),
@@ -456,6 +470,7 @@ class JobSubmitter {
     Arrays.sort(array, new SplitComparator());
     JobSplitWriter.createSplitFiles(jobSubmitDir, conf, 
         jobSubmitDir.getFileSystem(conf), array);
+      ////num of split. the same as num of maps
     return array.length;
   }
   
@@ -464,6 +479,7 @@ class JobSubmitter {
       InterruptedException, ClassNotFoundException {
     JobConf jConf = (JobConf)job.getConfiguration();
     int maps;
+      ////default use new api unless old attribute is used or old_property is set.
     if (jConf.getUseNewMapper()) {
       maps = writeNewSplits(job, jobSubmitDir);
     } else {

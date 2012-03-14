@@ -1212,7 +1212,9 @@ public class Job extends JobContextImpl implements JobContext {
          throws IOException, InterruptedException, ClassNotFoundException {
     ensureState(JobState.DEFINE);
     setUseNewAPI();
-    connect();
+
+      ////when connect, init Cluster and ClientProtocol.
+      connect();
     final JobSubmitter submitter = 
         getJobSubmitter(cluster.getFileSystem(), cluster.getClient());
     status = ugi.doAs(new PrivilegedExceptionAction<JobStatus>() {
@@ -1235,7 +1237,7 @@ public class Job extends JobContextImpl implements JobContext {
   public boolean waitForCompletion(boolean verbose
                                    ) throws IOException, InterruptedException,
                                             ClassNotFoundException {
-    if (state == JobState.DEFINE) {
+    if (state == JobState.DEFINE) {////define or running
       submit();
     }
     if (verbose) {

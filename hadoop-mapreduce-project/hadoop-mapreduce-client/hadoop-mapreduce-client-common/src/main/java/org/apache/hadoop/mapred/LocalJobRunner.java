@@ -146,6 +146,9 @@ public class LocalJobRunner implements ClientProtocol {
       JobConf conf = new JobConf(systemJobFile);
       this.localFs = FileSystem.getLocal(conf);
       this.localJobDir = localFs.makeQualified(conf.getLocalPath(jobDir));
+        ////
+        System.out.println("[ACT-HADOOP]systemJobDir is " + systemJobDir + "and localJobDir is " + this.localJobDir.toString());
+
       this.localJobFile = new Path(this.localJobDir, id + ".xml");
 
       // Manage the distributed cache.  If there are files to be copied,

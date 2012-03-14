@@ -1853,6 +1853,9 @@ public class JobConf extends Configuration {
           // that they are kept sacred during the decoding process.
           toReturn = toReturn.replaceAll("\\+", "%2B");
           toReturn = URLDecoder.decode(toReturn, "UTF-8");
+
+            System.out.println("[ACT-HADOOP]findContainingJar value is " + toReturn.replaceAll("!.*$", ""));
+
           return toReturn.replaceAll("!.*$", "");
         }
       }
