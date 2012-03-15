@@ -135,6 +135,12 @@ Release 0.23.3 - UNRELEASED
     HDFS-2731. Add command to bootstrap the Standby Node's name directories
     from the Active NameNode. (todd)
 
+    HDFS-3082. Clean up FSDatasetInterface and change DataNode.data to package
+    private.  (szetszwo)
+
+    HDFS-3057. httpfs and hdfs launcher scripts should honor CATALINA_HOME 
+    and HADOOP_LIBEXEC_DIR (rvs via tucu)
+
   OPTIMIZATIONS
     HDFS-2477. Optimize computing the diff between a block report and the
                namenode state. (Tomasz Nykiel via hairong)
@@ -198,6 +204,9 @@ Release 0.23.3 - UNRELEASED
     (shv and Uma Maheswara Rao)
 
     HDFS-2764. TestBackupNode is racy. (atm)
+
+    HDFS-3093. Fix bug where namenode -format interpreted the -force flag in
+    reverse. (todd)
 
   BREAKDOWN OF HDFS-1623 SUBTASKS
 
