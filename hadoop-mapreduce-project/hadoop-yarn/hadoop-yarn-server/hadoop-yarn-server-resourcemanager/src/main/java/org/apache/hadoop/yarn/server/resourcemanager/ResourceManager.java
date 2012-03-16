@@ -19,15 +19,10 @@
 package org.apache.hadoop.yarn.server.resourcemanager;
 
 
-import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.classification.InterfaceAudience.Private;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.metrics2.MetricsSystem;
 import org.apache.hadoop.metrics2.lib.DefaultMetricsSystem;
 import org.apache.hadoop.metrics2.source.JvmMetrics;
 import org.apache.hadoop.security.SecurityUtil;
@@ -80,6 +75,10 @@ import org.apache.hadoop.yarn.webapp.WebApp;
 import org.apache.hadoop.yarn.webapp.WebApps;
 import org.apache.hadoop.yarn.webapp.WebApps.Builder;
 
+import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 /**
  * The ResourceManager is the main class that is a set of components.
  *
@@ -131,6 +130,8 @@ public class ResourceManager extends CompositeService implements Recoverable {
   @Override
   public synchronized void init(Configuration conf) {
 
+      ////
+      System.out.println("[ACT-HADOOP]Resourcemanager.init(conf)");
     this.conf = conf;
 
     this.conf.setBoolean(Dispatcher.DISPATCHER_EXIT_ON_ERROR_KEY, true);
@@ -233,6 +234,7 @@ public class ResourceManager extends CompositeService implements Recoverable {
   }
 
   protected ResourceScheduler createScheduler() {
+//      LOG.info("[ACT-HADOOP] createScheduler");
     return ReflectionUtils.newInstance(this.conf.getClass(
         YarnConfiguration.RM_SCHEDULER, FifoScheduler.class,
         ResourceScheduler.class), this.conf);

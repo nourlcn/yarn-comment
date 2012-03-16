@@ -18,15 +18,15 @@
 
 package org.apache.hadoop.yarn.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.yarn.YarnException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Composition of services.
@@ -54,8 +54,10 @@ public class CompositeService extends AbstractService {
   }
 
   public synchronized void init(Configuration conf) {
-    for (Service service : serviceList) {
-      service.init(conf);
+      LOG.info("[ACT-HADOOP] All service");
+      for (Service service : serviceList) {
+        System.out.println("[ACT-HADOOP]" + service.getName().toString());
+//      service.init(conf);
     }
     super.init(conf);
   }
