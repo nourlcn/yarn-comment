@@ -130,8 +130,6 @@ public class ResourceManager extends CompositeService implements Recoverable {
   @Override
   public synchronized void init(Configuration conf) {
 
-      ////
-      System.out.println("[ACT-HADOOP]Resourcemanager.init(conf)");
     this.conf = conf;
 
     this.conf.setBoolean(Dispatcher.DISPATCHER_EXIT_ON_ERROR_KEY, true);
@@ -234,7 +232,6 @@ public class ResourceManager extends CompositeService implements Recoverable {
   }
 
   protected ResourceScheduler createScheduler() {
-//      LOG.info("[ACT-HADOOP] createScheduler");
     return ReflectionUtils.newInstance(this.conf.getClass(
         YarnConfiguration.RM_SCHEDULER, FifoScheduler.class,
         ResourceScheduler.class), this.conf);
