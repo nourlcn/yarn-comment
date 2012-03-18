@@ -34,6 +34,9 @@ Release 0.23.3 - UNRELEASED
     MAPREDUCE-3773. Add queue metrics with buckets for job run times. (omalley
     via acmurthy)
 
+    MAPREDUCE-3970 Add ServiceOperations class to aid working with Services
+    (stevel)
+
   OPTIMIZATIONS
 
   BUG FIXES
@@ -67,8 +70,9 @@ Release 0.23.3 - UNRELEASED
     MAPREDUCE-4007. JobClient getJob(JobID) should return NULL if the job 
     does not exist (for backwards compatibility) (tucu)
 
-    MAPREDUCE-3970 Add ServiceOperations class to aid working with Services
-    (stevel)
+    MAPREDUCE-3431 NPE in Resource Manager shutdown. (stevel)
+
+    MAPREDUCE-4010.  TestWritableJobConf fails on trunk (tucu via bobby)
 
 Release 0.23.2 - UNRELEASED
 
@@ -232,6 +236,12 @@ Release 0.23.2 - UNRELEASED
 
     MAPREDUCE-3982. Fixed FileOutputCommitter to not err out for an 'empty-job'
     whose tasks don't write any outputs. (Robert Joseph Evans via vinodkv)
+
+    MAPREDUCE-4005. Fixes broken AM container logs URL on ResourceManager
+    Application Info page. (Jason Lowe via sseth)
+
+    MAPREDUCE-4006. History server container log web UI sometimes combines
+    stderr/stdout/syslog contents together (Siddharth Seth via tgraves)
 
 Release 0.23.1 - 2012-02-17
 

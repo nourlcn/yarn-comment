@@ -141,6 +141,10 @@ Release 0.23.3 - UNRELEASED
     HDFS-3057. httpfs and hdfs launcher scripts should honor CATALINA_HOME 
     and HADOOP_LIBEXEC_DIR (rvs via tucu)
 
+    HDFS-3088. Move FSDatasetInterface inner classes to a package.  (szetszwo)
+
+    HDFS-3111. Missing license headers in trunk. (umamahesh)
+
   OPTIMIZATIONS
     HDFS-2477. Optimize computing the diff between a block report and the
                namenode state. (Tomasz Nykiel via hairong)
@@ -563,6 +567,8 @@ Release 0.23.2 - UNRELEASED
     HDFS-2985. Improve logging when replicas are marked as corrupt. (todd)
 
     HDFS-3098. Update and add tests for HADOOP-8173. (Daryn Sharp via szetszwo)
+
+    HDFS-3104. Add tests for HADOOP-8175. (Daryn Sharp via szetszwo)
 
   OPTIMIZATIONS
 
