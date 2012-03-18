@@ -88,6 +88,9 @@ Release 0.23.3 - UNRELEASED
 
     HADOOP-7806. Support binding to sub-interfaces (eli)
 
+    HADOOP-6941. Adds support for building Hadoop with IBM's JDK 
+    (Stephen Watt, Eli and ddas)
+
   OPTIMIZATIONS
 
   BUG FIXES
@@ -272,6 +275,14 @@ Release 0.23.2 - UNRELEASED
 
     HADOOP-8164. Back slash as path separator is handled for Windows only.
     (Daryn Sharp via suresh)
+
+    HADOOP-8173. FsShell needs to handle quoted metachars.  (Daryn Sharp via
+    szetszwo)
+
+    HADOOP-8175. Add -p option to mkdir in FsShell.  (Daryn Sharp via szetszwo)
+
+    HADOOP-8176.  Disambiguate the destination of FsShell copies (Daryn Sharp
+    via bobby)
 
 Release 0.23.1 - 2012-02-17 
 

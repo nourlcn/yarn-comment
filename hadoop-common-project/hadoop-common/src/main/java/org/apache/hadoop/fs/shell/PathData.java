@@ -36,7 +36,6 @@ import org.apache.hadoop.fs.shell.PathExceptions.PathIOException;
 import org.apache.hadoop.fs.shell.PathExceptions.PathIsDirectoryException;
 import org.apache.hadoop.fs.shell.PathExceptions.PathIsNotDirectoryException;
 import org.apache.hadoop.fs.shell.PathExceptions.PathNotFoundException;
-import org.apache.hadoop.io.Writable;
 
 /**
  * Encapsulates a Path (path), its FileStatus (stat), and its FileSystem (fs).
@@ -189,12 +188,21 @@ public class PathData implements Comparable<PathData> {
    * @throws IOException upon unexpected error
    */
   public boolean parentExists() throws IOException {
+    return representsDirectory()
+        ? fs.exists(path) : fs.exists(path.getParent());
+  }
+
+  /**
+   * Check if the path represents a directory as determined by the basename
+   * being "." or "..", or the path ending with a directory separator 
+   * @return boolean if this represents a directory
+   */
+  public boolean representsDirectory() {
     String uriPath = uri.getPath();
     String name = uriPath.substring(uriPath.lastIndexOf("/")+1);
     // Path will munch off the chars that indicate a dir, so there's no way
     // to perform this test except by examining the raw basename we maintain
-    return (name.isEmpty() || name.equals(".") || name.equals(".."))
-        ? fs.exists(path) : fs.exists(path.getParent());
+    return (name.isEmpty() || name.equals(".") || name.equals(".."));
   }
   
   /**
@@ -267,6 +275,8 @@ public class PathData implements Comparable<PathData> {
     PathData[] items = null;
     
     if (stats == null) {
+      // remove any quoting in the glob pattern
+      pattern = pattern.replaceAll("\\\\(.)", "$1");
       // not a glob & file not found, so add the path with a null stat
       items = new PathData[]{ new PathData(fs, pattern, null) };
     } else {

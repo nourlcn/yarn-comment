@@ -141,6 +141,10 @@ Release 0.23.3 - UNRELEASED
     HDFS-3057. httpfs and hdfs launcher scripts should honor CATALINA_HOME 
     and HADOOP_LIBEXEC_DIR (rvs via tucu)
 
+    HDFS-3088. Move FSDatasetInterface inner classes to a package.  (szetszwo)
+
+    HDFS-3111. Missing license headers in trunk. (umamahesh)
+
   OPTIMIZATIONS
     HDFS-2477. Optimize computing the diff between a block report and the
                namenode state. (Tomasz Nykiel via hairong)
@@ -209,6 +213,12 @@ Release 0.23.3 - UNRELEASED
     reverse. (todd)
 
     HDFS-3005. FSVolume.decDfsUsed(..) should be synchronized.  (szetszwo)
+
+    HDFS-3099. SecondaryNameNode does not properly initialize metrics system.
+    (atm)
+
+    HDFS-3062. Fix bug which prevented MR job submission from creating
+    delegation tokens on an HA cluster. (Mingjie Lai via todd)
 
   BREAKDOWN OF HDFS-1623 SUBTASKS
 
@@ -556,6 +566,10 @@ Release 0.23.2 - UNRELEASED
 
     HDFS-2985. Improve logging when replicas are marked as corrupt. (todd)
 
+    HDFS-3098. Update and add tests for HADOOP-8173. (Daryn Sharp via szetszwo)
+
+    HDFS-3104. Add tests for HADOOP-8175. (Daryn Sharp via szetszwo)
+
   OPTIMIZATIONS
 
     HDFS-3024. Improve performance of stringification in addStoredBlock (todd)
@@ -608,6 +622,8 @@ Release 0.23.2 - UNRELEASED
 
     HDFS-2038. Update TestHDFSCLI to handle relative paths with globs.
     (Kihwal Lee via szetszwo)
+
+    HDFS-3101. Cannot read empty file using WebHDFS.  (szetszwo)
 
 Release 0.23.1 - 2012-02-17 
 
