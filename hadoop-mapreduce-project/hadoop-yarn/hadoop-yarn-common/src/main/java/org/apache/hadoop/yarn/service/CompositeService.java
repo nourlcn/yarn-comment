@@ -57,7 +57,7 @@ public class CompositeService extends AbstractService {
       LOG.info("[ACT-HADOOP] All service");
       for (Service service : serviceList) {
         System.out.println("[ACT-HADOOP]" + service.getName().toString());
-//      service.init(conf);
+      service.init(conf);
     }
     super.init(conf);
   }

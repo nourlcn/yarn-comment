@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Maven: aopalliance:aopalliance:1.0">
+    <archive path="/home/nourl/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/hadoop-common-0.23.3-SNAPSHOT-sources.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/hadoop-common-0.23.3-SNAPSHOT-test-sources.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/hadoop-common-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/hadoop-common-0.23.3-SNAPSHOT-tests.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/log4j-1.2.15.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/guice-servlet-3.0.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/asm-3.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/guice-3.0.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/jdiff-1.0.9.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/commons-io-2.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/clover-3.0.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/commons-logging-1.1.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/commons-daemon-1.0.3.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/junit-4.8.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/jackson-mapper-asl-1.8.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/slf4j-log4j12-1.6.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/slf4j-api-1.6.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/jersey-guice-1.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/hadoop-annotations-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/jersey-server-1.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/paranamer-2.3.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/protobuf-java-2.4.0a.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/jackson-core-asl-1.8.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/snappy-java-1.0.3.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/jersey-core-1.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/avro-1.5.3.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/aopalliance-1.0.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/javax.inject-1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/lib/netty-3.2.3.Final.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/hadoop-hdfs-0.23.3-SNAPSHOT-test-sources.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/hadoop-hdfs-0.23.3-SNAPSHOT-sources.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/hadoop-hdfs-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/hadoop-hdfs-0.23.3-SNAPSHOT-tests.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-yarn-api-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-0.23.3-SNAPSHOT-tests.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-yarn-server-resourcemanager-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-yarn-site-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-yarn-applications-distributedshell-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-yarn-server-nodemanager-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-mapreduce-client-hs-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-yarn-server-common-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-mapreduce-client-app-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-yarn-server-web-proxy-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-mapreduce-client-common-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-mapreduce-client-shuffle-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-yarn-common-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/mapreduce/hadoop-mapreduce-client-core-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-cli-1.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/log4j-1.2.15.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jsch-0.1.42.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/activation-1.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/asm-3.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jsp-api-2.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-configuration-1.6.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-logging-1.1.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jline-0.9.94.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/guava-r09.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jackson-jaxrs-1.8.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jasper-runtime-5.5.23.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/oro-2.0.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/kfs-0.3.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jackson-mapper-asl-1.8.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-digester-1.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-collections-3.2.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/hadoop-auth-0.23.3-SNAPSHOT.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/xmlenc-0.52.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/aspectjrt-1.6.5.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/slf4j-log4j12-1.6.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/core-3.1.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/slf4j-api-1.6.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jaxb-api-2.2.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jersey-json-1.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jasper-compiler-5.5.23.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jersey-server-1.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/json-simple-1.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/paranamer-2.3.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-lang-2.5.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jetty-util-6.1.26.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/protobuf-java-2.4.0a.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-beanutils-core-1.8.0.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-logging-api-1.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/zookeeper-3.4.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jaxb-impl-2.2.3-1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-beanutils-1.7.0.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jackson-core-asl-1.8.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-codec-1.4.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/stax-api-1.0.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/snappy-java-1.0.3.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-math-2.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jersey-core-1.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-net-1.4.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/servlet-api-2.5.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jetty-6.1.26.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jets3t-0.6.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/hsqldb-1.8.0.7.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/avro-1.5.3.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-el-1.0.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jettison-1.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/commons-httpclient-3.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/jackson-xc-1.8.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/common/lib/netty-3.2.3.Final.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/log4j-1.2.15.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/commons-logging-1.1.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/commons-daemon-1.0.3.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/jackson-mapper-asl-1.8.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/slf4j-log4j12-1.6.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/slf4j-api-1.6.1.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/paranamer-2.3.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/protobuf-java-2.4.0a.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/jackson-core-asl-1.8.8.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/snappy-java-1.0.3.2.jar" />
+    <archive path="/home/nourl/github/hadoop-common/hadoop-dist/target/hadoop-0.23.3-SNAPSHOT/share/hadoop/hdfs/lib/avro-1.5.3.jar" />
+  </library>
+  <library name="Maven: asm:asm:3.2">
+    <archive path="/home/nourl/.m2/repository/asm/asm/3.2/asm-3.2.jar" />
+  </library>
+  <library name="Maven: com.cenqua.clover:clover:3.0.2">
+    <archive path="/home/nourl/.m2/repository/com/cenqua/clover/clover/3.0.2/clover-3.0.2.jar" />
+  </library>
+  <library name="Maven: com.google.guava:guava:r09">
+    <archive path="/home/nourl/.m2/repository/com/google/guava/guava/r09/guava-r09.jar" />
+  </library>
+  <library name="Maven: com.google.inject.extensions:guice-servlet:3.0">
+    <archive path="/home/nourl/.m2/repository/com/google/inject/extensions/guice-servlet/3.0/guice-servlet-3.0.jar" />
+  </library>
+  <library name="Maven: com.google.inject:guice:3.0">
+    <archive path="/home/nourl/.m2/repository/com/google/inject/guice/3.0/guice-3.0.jar" />
+  </library>
+  <library name="Maven: com.google.protobuf:protobuf-java:2.4.0a">
+    <archive path="/home/nourl/.m2/repository/com/google/protobuf/protobuf-java/2.4.0a/protobuf-java-2.4.0a.jar" />
+  </library>
+  <library name="Maven: com.googlecode.json-simple:json-simple:1.1">
+    <archive path="/home/nourl/.m2/repository/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar" />
+  </library>
+  <library name="Maven: com.sun.jersey.contribs:jersey-guice:1.8">
+    <archive path="/home/nourl/.m2/repository/com/sun/jersey/contribs/jersey-guice/1.8/jersey-guice-1.8.jar" />
+  </library>
+  <library name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-core:1.8">
+    <archive path="/home/nourl/.m2/repository/com/sun/jersey/jersey-test-framework/jersey-test-framework-core/1.8/jersey-test-framework-core-1.8.jar" />
+  </library>
+  <library name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-grizzly2:1.8">
+    <archive path="/home/nourl/.m2/repository/com/sun/jersey/jersey-test-framework/jersey-test-framework-grizzly2/1.8/jersey-test-framework-grizzly2-1.8.jar" />
+  </library>
+  <library name="Maven: com.sun.jersey:jersey-client:1.8">
+    <archive path="/home/nourl/.m2/repository/com/sun/jersey/jersey-client/1.8/jersey-client-1.8.jar" />
+  </library>
+  <library name="Maven: com.sun.jersey:jersey-core:1.8">
+    <archive path="/home/nourl/.m2/repository/com/sun/jersey/jersey-core/1.8/jersey-core-1.8.jar" />
+  </library>
+  <library name="Maven: com.sun.jersey:jersey-grizzly2:1.8">
+    <archive path="/home/nourl/.m2/repository/com/sun/jersey/jersey-grizzly2/1.8/jersey-grizzly2-1.8.jar" />
+  </library>
+  <library name="Maven: com.sun.jersey:jersey-json:1.8">
+    <archive path="/home/nourl/.m2/repository/com/sun/jersey/jersey-json/1.8/jersey-json-1.8.jar" />
+  </library>
+  <library name="Maven: com.sun.jersey:jersey-server:1.8">
+    <archive path="/home/nourl/.m2/repository/com/sun/jersey/jersey-server/1.8/jersey-server-1.8.jar" />
+  </library>
+  <library name="Maven: com.sun.xml.bind:jaxb-impl:2.2.3-1">
+    <archive path="/home/nourl/.m2/repository/com/sun/xml/bind/jaxb-impl/2.2.3-1/jaxb-impl-2.2.3-1.jar" />
+  </library>
+  <library name="Maven: com.thoughtworks.paranamer:paranamer:2.3">
+    <archive path="/home/nourl/.m2/repository/com/thoughtworks/paranamer/paranamer/2.3/paranamer-2.3.jar" />
+  </library>
+  <library name="Maven: commons-beanutils:commons-beanutils-core:1.8.0">
+    <archive path="/home/nourl/.m2/repository/commons-beanutils/commons-beanutils-core/1.8.0/commons-beanutils-core-1.8.0.jar" />
+  </library>
+  <library name="Maven: commons-beanutils:commons-beanutils:1.7.0">
+    <archive path="/home/nourl/.m2/repository/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar" />
+  </library>
+  <library name="Maven: commons-cli:commons-cli:1.2">
+    <archive path="/home/nourl/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar" />
+  </library>
+  <library name="Maven: commons-codec:commons-codec:1.4">
+    <archive path="/home/nourl/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" />
+  </library>
+  <library name="Maven: commons-collections:commons-collections:3.2.1">
+    <archive path="/home/nourl/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" />
+  </library>
+  <library name="Maven: commons-configuration:commons-configuration:1.6">
+    <archive path="/home/nourl/.m2/repository/commons-configuration/commons-configuration/1.6/commons-configuration-1.6.jar" />
+  </library>
+  <library name="Maven: commons-daemon:commons-daemon:1.0.3">
+    <archive path="/home/nourl/.m2/repository/commons-daemon/commons-daemon/1.0.3/commons-daemon-1.0.3.jar" />
+  </library>
+  <library name="Maven: commons-digester:commons-digester:1.8">
+    <archive path="/home/nourl/.m2/repository/commons-digester/commons-digester/1.8/commons-digester-1.8.jar" />
+  </library>
+  <library name="Maven: commons-el:commons-el:1.0">
+    <archive path="/home/nourl/.m2/repository/commons-el/commons-el/1.0/commons-el-1.0.jar" />
+  </library>
+  <library name="Maven: commons-httpclient:commons-httpclient:3.1">
+    <archive path="/home/nourl/.m2/repository/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar" />
+  </library>
+  <library name="Maven: commons-io:commons-io:2.1">
+    <archive path="/home/nourl/.m2/repository/commons-io/commons-io/2.1/commons-io-2.1.jar" />
+  </library>
+  <library name="Maven: commons-lang:commons-lang:2.5">
+    <archive path="/home/nourl/.m2/repository/commons-lang/commons-lang/2.5/commons-lang-2.5.jar" />
+  </library>
+  <library name="Maven: commons-logging:commons-logging-api:1.1">
+    <archive path="/home/nourl/.m2/repository/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar" />
+  </library>
+  <library name="Maven: commons-logging:commons-logging:1.1.1">
+    <archive path="/home/nourl/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" />
+  </library>
+  <library name="Maven: commons-net:commons-net:1.4.1">
+    <archive path="/home/nourl/.m2/repository/commons-net/commons-net/1.4.1/commons-net-1.4.1.jar" />
+  </library>
+  <library name="Maven: hsqldb:hsqldb:1.8.0.7">
+    <archive path="/home/nourl/.m2/repository/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar" />
+  </library>
+  <library name="Maven: javax.activation:activation:1.1">
+    <archive path="/home/nourl/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar" />
+  </library>
+  <library name="Maven: javax.inject:javax.inject:1">
+    <archive path="/home/nourl/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar" />
+  </library>
+  <library name="Maven: javax.servlet.jsp:jsp-api:2.1">
+    <archive path="/home/nourl/.m2/repository/javax/servlet/jsp/jsp-api/2.1/jsp-api-2.1.jar" />
+  </library>
+  <library name="Maven: javax.servlet:servlet-api:2.5">
+    <archive path="/home/nourl/.m2/repository/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" />
+  </library>
+  <library name="Maven: javax.xml.bind:jaxb-api:2.2.2">
+    <archive path="/home/nourl/.m2/repository/javax/xml/bind/jaxb-api/2.2.2/jaxb-api-2.2.2.jar" />
+  </library>
+  <library name="Maven: jdiff:jdiff:1.0.9">
+    <archive path="/home/nourl/.m2/repository/jdiff/jdiff/1.0.9/jdiff-1.0.9.jar" />
+  </library>
+  <library name="Maven: jdk.tools:jdk.tools:1.6">
+    <archive path="/usr/lib/jvm/java-6-sun/lib/tools.jar" />
+  </library>
+  <library name="Maven: jline:jline:0.9.94">
+    <archive path="/home/nourl/.m2/repository/jline/jline/0.9.94/jline-0.9.94.jar" />
+  </library>
+  <library name="Maven: junit:junit:4.8.2">
+    <archive path="/home/nourl/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar" />
+  </library>
+  <library name="Maven: log4j:log4j:1.2.15">
+    <archive path="/home/nourl/.m2/repository/log4j/log4j/1.2.15/log4j-1.2.15.jar" />
+  </library>
+  <library name="Maven: net.java.dev.jets3t:jets3t:0.6.1">
+    <archive path="/home/nourl/.m2/repository/net/java/dev/jets3t/jets3t/0.6.1/jets3t-0.6.1.jar" />
+  </library>
+  <library name="Maven: net.sf.kosmosfs:kfs:0.3">
+    <archive path="/home/nourl/.m2/repository/net/sf/kosmosfs/kfs/0.3/kfs-0.3.jar" />
+  </library>
+  <library name="Maven: org.apache.avro:avro:1.5.3">
+    <archive path="/home/nourl/.m2/repository/org/apache/avro/avro/1.5.3/avro-1.5.3.jar" />
+  </library>
+  <library name="Maven: org.apache.commons:commons-math:2.1">
+    <archive path="/home/nourl/.m2/repository/org/apache/commons/commons-math/2.1/commons-math-2.1.jar" />
+  </library>
+  <library name="Maven: org.apache.hadoop:hadoop-annotations:0.23.3-SNAPSHOT">
+    <archive path="/home/nourl/.m2/repository/org/apache/hadoop/hadoop-annotations/0.23.3-SNAPSHOT/hadoop-annotations-0.23.3-SNAPSHOT.jar" />
+  </library>
+  <library name="Maven: org.apache.hadoop:hadoop-auth:0.23.3-SNAPSHOT">
+    <archive path="/home/nourl/.m2/repository/org/apache/hadoop/hadoop-auth/0.23.3-SNAPSHOT/hadoop-auth-0.23.3-SNAPSHOT.jar" />
+  </library>
+  <library name="Maven: org.apache.hadoop:hadoop-common:0.23.3-SNAPSHOT">
+    <archive path="/home/nourl/.m2/repository/org/apache/hadoop/hadoop-common/0.23.3-SNAPSHOT/hadoop-common-0.23.3-SNAPSHOT.jar" />
+  </library>
+  <library name="Maven: org.apache.hadoop:hadoop-common:test-jar:tests:0.23.3-SNAPSHOT">
+    <archive path="/home/nourl/.m2/repository/org/apache/hadoop/hadoop-common/0.23.3-SNAPSHOT/hadoop-common-0.23.3-SNAPSHOT-tests.jar" />
+  </library>
+  <library name="Maven: org.apache.hadoop:hadoop-hdfs:0.23.3-SNAPSHOT">
+    <archive path="/home/nourl/.m2/repository/org/apache/hadoop/hadoop-hdfs/0.23.3-SNAPSHOT/hadoop-hdfs-0.23.3-SNAPSHOT.jar" />
+  </library>
+  <library name="Maven: org.apache.hadoop:hadoop-hdfs:test-jar:tests:0.23.3-SNAPSHOT">
+    <archive path="/home/nourl/.m2/repository/org/apache/hadoop/hadoop-hdfs/0.23.3-SNAPSHOT/hadoop-hdfs-0.23.3-SNAPSHOT-tests.jar" />
+  </library>
+  <library name="Maven: org.apache.zookeeper:zookeeper:3.4.2">
+    <archive path="/home/nourl/.m2/repository/org/apache/zookeeper/zookeeper/3.4.2/zookeeper-3.4.2.jar" />
+  </library>
+  <library name="Maven: org.aspectj:aspectjrt:1.6.5">
+    <archive path="/home/nourl/.m2/repository/org/aspectj/aspectjrt/1.6.5/aspectjrt-1.6.5.jar" />
+  </library>
+  <library name="Maven: org.codehaus.jackson:jackson-core-asl:1.8.8">
+    <archive path="/home/nourl/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.8.8/jackson-core-asl-1.8.8.jar" />
+  </library>
+  <library name="Maven: org.codehaus.jackson:jackson-jaxrs:1.8.8">
+    <archive path="/home/nourl/.m2/repository/org/codehaus/jackson/jackson-jaxrs/1.8.8/jackson-jaxrs-1.8.8.jar" />
+  </library>
+  <library name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.8.8">
+    <archive path="/home/nourl/.m2/repository/org/codehaus/jackson/jackson-mapper-asl/1.8.8/jackson-mapper-asl-1.8.8.jar" />
+  </library>
+  <library name="Maven: org.codehaus.jackson:jackson-xc:1.8.8">
+    <archive path="/home/nourl/.m2/repository/org/codehaus/jackson/jackson-xc/1.8.8/jackson-xc-1.8.8.jar" />
+  </library>
+  <library name="Maven: org.codehaus.jettison:jettison:1.1">
+    <archive path="/home/nourl/.m2/repository/org/codehaus/jettison/jettison/1.1/jettison-1.1.jar" />
+  </library>
+  <library name="Maven: org.eclipse.jdt:core:3.1.1">
+    <archive path="/home/nourl/.m2/repository/org/eclipse/jdt/core/3.1.1/core-3.1.1.jar" />
+  </library>
+  <library name="Maven: org.glassfish.external:management-api:3.0.0-b012">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/external/management-api/3.0.0-b012/management-api-3.0.0-b012.jar" />
+  </library>
+  <library name="Maven: org.glassfish.gmbal:gmbal-api-only:3.0.0-b023">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/gmbal/gmbal-api-only/3.0.0-b023/gmbal-api-only-3.0.0-b023.jar" />
+  </library>
+  <library name="Maven: org.glassfish.grizzly:grizzly-framework:2.1.1">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/grizzly/grizzly-framework/2.1.1/grizzly-framework-2.1.1.jar" />
+  </library>
+  <library name="Maven: org.glassfish.grizzly:grizzly-framework:tests:2.1.1">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/grizzly/grizzly-framework/2.1.1/grizzly-framework-2.1.1-tests.jar" />
+  </library>
+  <library name="Maven: org.glassfish.grizzly:grizzly-http-server:2.1.1">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/grizzly/grizzly-http-server/2.1.1/grizzly-http-server-2.1.1.jar" />
+  </library>
+  <library name="Maven: org.glassfish.grizzly:grizzly-http-servlet:2.1.1">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/grizzly/grizzly-http-servlet/2.1.1/grizzly-http-servlet-2.1.1.jar" />
+  </library>
+  <library name="Maven: org.glassfish.grizzly:grizzly-http:2.1.1">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/grizzly/grizzly-http/2.1.1/grizzly-http-2.1.1.jar" />
+  </library>
+  <library name="Maven: org.glassfish.grizzly:grizzly-rcm:2.1.1">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/grizzly/grizzly-rcm/2.1.1/grizzly-rcm-2.1.1.jar" />
+  </library>
+  <library name="Maven: org.glassfish:javax.servlet:3.0">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/javax.servlet/3.0/javax.servlet-3.0.jar" />
+  </library>
+  <library name="Maven: org.glassfish:javax.servlet:3.1">
+    <archive path="/home/nourl/.m2/repository/org/glassfish/javax.servlet/3.1/javax.servlet-3.1.jar" />
+  </library>
+  <library name="Maven: org.jboss.netty:netty:3.2.3.Final">
+    <archive path="/home/nourl/.m2/repository/org/jboss/netty/netty/3.2.3.Final/netty-3.2.3.Final.jar" />
+  </library>
+  <library name="Maven: org.mockito:mockito-all:1.8.5">
+    <archive path="/home/nourl/.m2/repository/org/mockito/mockito-all/1.8.5/mockito-all-1.8.5.jar" />
+  </library>
+  <library name="Maven: org.mortbay.jetty:jetty-util:6.1.26">
+    <archive path="/home/nourl/.m2/repository/org/mortbay/jetty/jetty-util/6.1.26/jetty-util-6.1.26.jar" />
+  </library>
+  <library name="Maven: org.mortbay.jetty:jetty:6.1.26">
+    <archive path="/home/nourl/.m2/repository/org/mortbay/jetty/jetty/6.1.26/jetty-6.1.26.jar" />
+  </library>
+  <library name="Maven: org.slf4j:slf4j-api:1.6.1">
+    <archive path="/home/nourl/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar" />
+  </library>
+  <library name="Maven: org.slf4j:slf4j-log4j12:1.6.1">
+    <archive path="/home/nourl/.m2/repository/org/slf4j/slf4j-log4j12/1.6.1/slf4j-log4j12-1.6.1.jar" />
+  </library>
+  <library name="Maven: org.xerial.snappy:snappy-java:1.0.3.2">
+    <archive path="/home/nourl/.m2/repository/org/xerial/snappy/snappy-java/1.0.3.2/snappy-java-1.0.3.2.jar" />
+  </library>
+  <library name="Maven: oro:oro:2.0.8">
+    <archive path="/home/nourl/.m2/repository/oro/oro/2.0.8/oro-2.0.8.jar" />
+  </library>
+  <library name="Maven: stax:stax-api:1.0.1">
+    <archive path="/home/nourl/.m2/repository/stax/stax-api/1.0.1/stax-api-1.0.1.jar" />
+  </library>
+  <library name="Maven: tomcat:jasper-compiler:5.5.23">
+    <archive path="/home/nourl/.m2/repository/tomcat/jasper-compiler/5.5.23/jasper-compiler-5.5.23.jar" />
+  </library>
+  <library name="Maven: tomcat:jasper-runtime:5.5.23">
+    <archive path="/home/nourl/.m2/repository/tomcat/jasper-runtime/5.5.23/jasper-runtime-5.5.23.jar" />
+  </library>
+  <library name="Maven: xmlenc:xmlenc:0.52">
+    <archive path="/home/nourl/.m2/repository/xmlenc/xmlenc/0.52/xmlenc-0.52.jar" />
+  </library>
+</eclipse-userlibraries>
+

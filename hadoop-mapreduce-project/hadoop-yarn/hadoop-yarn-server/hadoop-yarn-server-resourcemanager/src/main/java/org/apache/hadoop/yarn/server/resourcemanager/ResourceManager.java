@@ -138,8 +138,10 @@ public class ResourceManager extends CompositeService implements Recoverable {
     this.rmDispatcher = createDispatcher();
     addIfService(this.rmDispatcher);
 
+      ////Dispather
     this.containerAllocationExpirer = new ContainerAllocationExpirer(
         this.rmDispatcher);
+      ////ContainerAllocationExpirer
     addService(this.containerAllocationExpirer);
 
     AMLivelinessMonitor amLivelinessMonitor = createAMLivelinessMonitor();
