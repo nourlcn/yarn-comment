@@ -18,16 +18,15 @@
 
 package org.apache.hadoop.yarn.security;
 
-import java.io.IOException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.security.authorize.AccessControlList;
 import org.apache.hadoop.security.UserGroupInformation;
-import org.apache.hadoop.yarn.conf.YarnConfiguration;
+import org.apache.hadoop.security.authorize.AccessControlList;
 import org.apache.hadoop.yarn.YarnException;
+import org.apache.hadoop.yarn.conf.YarnConfiguration;
+
+import java.io.IOException;
 
 public class AdminACLsManager {
 
@@ -65,6 +64,7 @@ public class AdminACLsManager {
           YarnConfiguration.YARN_ADMIN_ACL,
           YarnConfiguration.DEFAULT_YARN_ADMIN_ACL));
     try {
+        ////owner is your system login user.
       owner = UserGroupInformation.getCurrentUser();
       adminAcl.addUser(owner.getShortUserName());
     } catch (IOException e){

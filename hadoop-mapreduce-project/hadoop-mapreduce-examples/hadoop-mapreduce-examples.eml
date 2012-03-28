@@ -13,7 +13,7 @@
 		<excludeFolder url="file://$MODULE_DIR$/target/test-classes"/>
 		<excludeFolder url="file://$MODULE_DIR$/target/test-dir"/>
 	</contentEntry>
-	<module name="hadoop-mapreduce-client-jobclient" scope="PROVIDED"/>
+	<module name="hadoop-mapreduce-client-jobclient" scope="TEST"/>
 	<module name="hadoop-mapreduce-client-common" scope="PROVIDED"/>
 	<module name="hadoop-yarn-common" scope="PROVIDED"/>
 	<lib name="Maven: log4j:log4j:1.2.15" scope="PROVIDED"/>
@@ -62,7 +62,6 @@
 	<lib name="Maven: jline:jline:0.9.94" scope="TEST"/>
 	<module name="hadoop-mapreduce-client-shuffle" scope="PROVIDED"/>
 	<module name="hadoop-yarn-server-nodemanager" scope="TEST"/>
-	<module name="hadoop-mapreduce-client-jobclient" scope="TEST"/>
 	<lib name="Maven: org.apache.hadoop:hadoop-common:0.23.3-SNAPSHOT" scope="PROVIDED"/>
 	<lib name="Maven: com.google.guava:guava:r09" scope="PROVIDED"/>
 	<lib name="Maven: commons-cli:commons-cli:1.2" scope="PROVIDED"/>
@@ -106,7 +105,6 @@
 	<module name="hadoop-yarn-server-tests" scope="TEST"/>
 	<module name="hadoop-yarn-server-resourcemanager" scope="TEST"/>
 	<module name="hadoop-yarn-server-web-proxy" scope="PROVIDED"/>
-	<module name="hadoop-mapreduce-client-app" scope="PROVIDED"/>
 	<module name="hadoop-mapreduce-client-app" scope="TEST"/>
 	<module name="hadoop-mapreduce-client-hs" scope="TEST"/>
 </component>

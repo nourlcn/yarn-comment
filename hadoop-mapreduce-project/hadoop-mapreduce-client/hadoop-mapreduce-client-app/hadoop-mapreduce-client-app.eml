@@ -22,7 +22,6 @@
 	<lib name="Maven: jline:jline:0.9.94" scope="TEST"/>
 	<module name="hadoop-yarn-server-nodemanager" scope="TEST"/>
 	<module name="hadoop-yarn-server-resourcemanager" scope="TEST"/>
-	<module name="hadoop-yarn-server-resourcemanager" scope="TEST"/>
 	<lib name="Maven: org.apache.hadoop:hadoop-common:0.23.3-SNAPSHOT" scope="PROVIDED"/>
 	<lib name="Maven: com.google.guava:guava:r09" scope="PROVIDED"/>
 	<lib name="Maven: commons-cli:commons-cli:1.2" scope="PROVIDED"/>

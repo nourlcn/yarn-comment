@@ -14,10 +14,10 @@
 		<excludeFolder url="file://$MODULE_DIR$/target/test-classes"/>
 		<excludeFolder url="file://$MODULE_DIR$/target/test-dir"/>
 	</contentEntry>
+	<module name="hadoop-yarn-common" scope="TEST"/>
 	<lib name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-core:1.8" scope="TEST"/>
 	<lib name="Maven: com.sun.jersey:jersey-client:1.8" scope="TEST"/>
 	<module name="hadoop-mapreduce-client-app" scope="TEST"/>
-	<module name="hadoop-yarn-common" scope="TEST"/>
 	<lib name="Maven: org.apache.hadoop:hadoop-common:0.23.3-SNAPSHOT" scope="PROVIDED"/>
 	<lib name="Maven: com.google.guava:guava:r09" scope="PROVIDED"/>
 	<lib name="Maven: commons-cli:commons-cli:1.2" scope="PROVIDED"/>

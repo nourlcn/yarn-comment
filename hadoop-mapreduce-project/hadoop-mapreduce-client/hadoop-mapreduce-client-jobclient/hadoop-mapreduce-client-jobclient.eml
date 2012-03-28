@@ -23,9 +23,7 @@
 	<module name="hadoop-mapreduce-client-app" scope="TEST"/>
 	<module name="hadoop-yarn-server-web-proxy" scope="TEST"/>
 	<lib name="Maven: javax.servlet:servlet-api:2.5" scope="PROVIDED"/>
-	<module name="hadoop-mapreduce-client-app" scope="TEST"/>
 	<module name="hadoop-mapreduce-client-hs" scope="TEST"/>
-	<module name="hadoop-yarn-server-resourcemanager" scope="TEST"/>
 	<module name="hadoop-yarn-server-resourcemanager" scope="TEST"/>
 	<module name="hadoop-yarn-server-tests" scope="TEST"/>
 	<lib name="Maven: org.apache.hadoop:hadoop-hdfs:test-jar:tests:0.23.3-SNAPSHOT" scope="TEST"/>

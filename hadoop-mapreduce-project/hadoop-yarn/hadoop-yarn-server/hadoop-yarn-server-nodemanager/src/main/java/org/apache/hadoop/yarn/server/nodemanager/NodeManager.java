@@ -18,11 +18,6 @@
 
 package org.apache.hadoop.yarn.server.nodemanager;
 
-import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -52,6 +47,11 @@ import org.apache.hadoop.yarn.service.Service;
 import org.apache.hadoop.yarn.service.ServiceStateChangeListener;
 import org.apache.hadoop.yarn.util.Records;
 
+import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListMap;
+
 public class NodeManager extends CompositeService implements
     ServiceStateChangeListener {
   private static final Log LOG = LogFactory.getLog(NodeManager.class);
@@ -64,6 +64,7 @@ public class NodeManager extends CompositeService implements
   
   public NodeManager() {
     super(NodeManager.class.getName());
+//    LOG.info("[ACT-HADOOP]leave nodemanager");
   }
 
   protected NodeStatusUpdater createNodeStatusUpdater(Context context,
@@ -117,7 +118,7 @@ public class NodeManager extends CompositeService implements
         conf.getClass(YarnConfiguration.NM_CONTAINER_EXECUTOR,
           DefaultContainerExecutor.class, ContainerExecutor.class), conf);
     try {
-      exec.init();
+      exec.init();      ////nothing to do in init()
     } catch (IOException e) {
       throw new YarnException("Failed to initialize container executor", e);
     }    
@@ -247,6 +248,8 @@ public class NodeManager extends CompositeService implements
   
   private void initAndStartNodeManager(boolean hasToReboot) {
     try {
+      ////
+//        LOG.info("[ACT-HADOOP] enter init nodemanager");
 
       // Remove the old hook if we are rebooting.
       if (hasToReboot && null != nodeManagerShutdownHook) {
