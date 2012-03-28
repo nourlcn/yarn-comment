@@ -55,6 +55,13 @@ Release 0.23.3 - UNRELEASED
     Suresh Srinivas, Jitendra Nath Pandey, Hari Mankude, Brandon Li, Sanjay
     Radia, Mingjie Lai, and Gregory Chanan
 
+    HDFS-2941. Add an administrative command to download a copy of the fsimage
+    from the NN. (atm)
+
+    HDFS-2413. Add an API DistributedFileSystem.isInSafeMode() and change
+    DistributedFileSystem to @InterfaceAudience.LimitedPrivate.
+    (harsh via szetszwo)
+
   IMPROVEMENTS
 
     HDFS-2018. Move all journal stream management code into one place.
@@ -145,16 +152,39 @@ Release 0.23.3 - UNRELEASED
 
     HDFS-3111. Missing license headers in trunk. (umamahesh)
 
+    HDFS-3091. Update the usage limitations of ReplaceDatanodeOnFailure policy in
+    the config description for the smaller clusters. (szetszwo via umamahesh)
+
+    HDFS-3105. Add DatanodeStorage information to block recovery.  (szetszwo)
+
+    HDFS-3086. Change Datanode not to send storage list in registration.
+    (szetszwo)
+
+    HDFS-309. FSEditLog should log progress during replay. (Sho Shimauchi
+    via todd)
+
+    HDFS-3044. fsck move should be non-destructive by default.
+    (Colin Patrick McCabe via eli)
+
+    HDFS-3071. haadmin failover command does not provide enough detail when
+    target NN is not ready to be active. (todd)
+
+    HDFS-3089. Move FSDatasetInterface and the related classes to a package.
+    (szetszwo)
+
+    HDFS-3129. NetworkTopology: add test that getLeaf should check for
+    invalid topologies. (Colin Patrick McCabe via eli)
+
   OPTIMIZATIONS
+
     HDFS-2477. Optimize computing the diff between a block report and the
-               namenode state. (Tomasz Nykiel via hairong)
+    namenode state. (Tomasz Nykiel via hairong)
 
     HDFS-2495. Increase granularity of write operations in ReplicationMonitor
     thus reducing contention for write lock. (Tomasz Nykiel via hairong)
 
     HDFS-2476. More CPU efficient data structure for under-replicated,
-               over-replicated, and invalidated blocks.
-               (Tomasz Nykiel via todd)
+    over-replicated, and invalidated blocks. (Tomasz Nykiel via todd)
 
     HDFS-3036. Remove unused method DFSUtil#isDefaultNamenodeAddress. (atm)
 
@@ -219,6 +249,14 @@ Release 0.23.3 - UNRELEASED
 
     HDFS-3062. Fix bug which prevented MR job submission from creating
     delegation tokens on an HA cluster. (Mingjie Lai via todd)
+
+    HDFS-3083. Cannot run an MR job with HA and security enabled when
+    second-listed NN active. (atm)
+
+    HDFS-3100. In BlockSender, throw an exception when it needs to verify
+    checksum but the meta data does not exist.  (Brandon Li via szetszwo)
+
+    HDFS-3132. Fix findbugs warning on HDFS trunk. (todd)
 
   BREAKDOWN OF HDFS-1623 SUBTASKS
 

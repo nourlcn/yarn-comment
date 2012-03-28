@@ -18,14 +18,15 @@
 package org.apache.hadoop.ha;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ha.HAServiceProtocol.HAServiceState;
+import org.apache.hadoop.ipc.RPC;
 
 import com.google.common.base.Preconditions;
 
@@ -41,6 +42,8 @@ public class FailoverController {
 
   private static final Log LOG = LogFactory.getLog(FailoverController.class);
 
+  private static final int GRACEFUL_FENCE_TIMEOUT = 5000;
+
   /**
    * Perform pre-failover checks on the given service we plan to
    * failover to, eg to prevent failing over to a service (eg due
@@ -51,28 +54,40 @@ public class FailoverController {
    * allow it to become active, eg because it triggers a log roll
    * so the standby can learn about new blocks and leave safemode.
    *
-   * @param toSvc service to make active
-   * @param toSvcName name of service to make active
+   * @param target service to make active
    * @param forceActive ignore toSvc if it reports that it is not ready
    * @throws FailoverFailedException if we should avoid failover
    */
-  private static void preFailoverChecks(HAServiceProtocol toSvc,
-                                        InetSocketAddress toSvcAddr,
+  private static void preFailoverChecks(HAServiceTarget target,
                                         boolean forceActive)
       throws FailoverFailedException {
-    HAServiceState toSvcState;
+    HAServiceStatus toSvcStatus;
+    HAServiceProtocol toSvc;
 
     try {
-      toSvcState = toSvc.getServiceState();
+      toSvc = target.getProxy();
+      toSvcStatus = toSvc.getServiceStatus();
     } catch (IOException e) {
-      String msg = "Unable to get service state for " + toSvcAddr;
+      String msg = "Unable to get service state for " + target;
       LOG.error(msg, e);
       throw new FailoverFailedException(msg, e);
     }
 
-    if (!toSvcState.equals(HAServiceState.STANDBY)) {
+    if (!toSvcStatus.getState().equals(HAServiceState.STANDBY)) {
       throw new FailoverFailedException(
           "Can't failover to an active service");
+    }
+    
+    if (!toSvcStatus.isReadyToBecomeActive()) {
+      String notReadyReason = toSvcStatus.getNotReadyReason();
+      if (!forceActive) {
+        throw new FailoverFailedException(
+            target + " is not ready to become active: " +
+            notReadyReason);
+      } else {
+        LOG.warn("Service is not ready to become active, but forcing: " +
+            notReadyReason);
+      }
     }
 
     try {
@@ -84,63 +99,67 @@ public class FailoverController {
       throw new FailoverFailedException(
           "Got an IO exception", e);
     }
-
-    try {
-      if (!toSvc.readyToBecomeActive()) {
-        if (!forceActive) {
-          throw new FailoverFailedException(
-              toSvcAddr + " is not ready to become active");
-        }
-      }
-    } catch (IOException e) {
-      throw new FailoverFailedException(
-          "Got an IO exception", e);
-    }
   }
-
+  
+  
+  /**
+   * Try to get the HA state of the node at the given address. This
+   * function is guaranteed to be "quick" -- ie it has a short timeout
+   * and no retries. Its only purpose is to avoid fencing a node that
+   * has already restarted.
+   */
+  static boolean tryGracefulFence(Configuration conf,
+      HAServiceTarget svc) {
+    HAServiceProtocol proxy = null;
+    try {
+      proxy = svc.getProxy(conf, GRACEFUL_FENCE_TIMEOUT);
+      proxy.transitionToStandby();
+      return true;
+    } catch (ServiceFailedException sfe) {
+      LOG.warn("Unable to gracefully make " + svc + " standby (" +
+          sfe.getMessage() + ")");
+    } catch (IOException ioe) {
+      LOG.warn("Unable to gracefully make " + svc +
+          " standby (unable to connect)", ioe);
+    } finally {
+      if (proxy != null) {
+        RPC.stopProxy(proxy);
+      }
+    }
+    return false;
+  }
+  
   /**
    * Failover from service 1 to service 2. If the failover fails
    * then try to failback.
    *
    * @param fromSvc currently active service
-   * @param fromSvcAddr addr of the currently active service
    * @param toSvc service to make active
-   * @param toSvcAddr addr of the service to make active
-   * @param fencer for fencing fromSvc
    * @param forceFence to fence fromSvc even if not strictly necessary
    * @param forceActive try to make toSvc active even if it is not ready
    * @throws FailoverFailedException if the failover fails
    */
-  public static void failover(HAServiceProtocol fromSvc,
-                              InetSocketAddress fromSvcAddr,
-                              HAServiceProtocol toSvc,
-                              InetSocketAddress toSvcAddr,
-                              NodeFencer fencer,
+  public static void failover(HAServiceTarget fromSvc,
+                              HAServiceTarget toSvc,
                               boolean forceFence,
                               boolean forceActive)
       throws FailoverFailedException {
-    Preconditions.checkArgument(fencer != null, "failover requires a fencer");
-    preFailoverChecks(toSvc, toSvcAddr, forceActive);
+    Preconditions.checkArgument(fromSvc.getFencer() != null,
+        "failover requires a fencer");
+    preFailoverChecks(toSvc, forceActive);
 
     // Try to make fromSvc standby
     boolean tryFence = true;
-    try {
-      HAServiceProtocolHelper.transitionToStandby(fromSvc);
-      // We should try to fence if we failed or it was forced
-      tryFence = forceFence ? true : false;
-    } catch (ServiceFailedException sfe) {
-      LOG.warn("Unable to make " + fromSvcAddr + " standby (" +
-          sfe.getMessage() + ")");
-    } catch (IOException ioe) {
-      LOG.warn("Unable to make " + fromSvcAddr +
-          " standby (unable to connect)", ioe);
+    
+    if (tryGracefulFence(new Configuration(), fromSvc)) {
+      tryFence = forceFence;
     }
 
     // Fence fromSvc if it's required or forced by the user
     if (tryFence) {
-      if (!fencer.fence(fromSvcAddr)) {
+      if (!fromSvc.getFencer().fence(fromSvc)) {
         throw new FailoverFailedException("Unable to fence " +
-            fromSvcAddr + ". Fencing failed.");
+            fromSvc + ". Fencing failed.");
       }
     }
 
@@ -148,14 +167,14 @@ public class FailoverController {
     boolean failed = false;
     Throwable cause = null;
     try {
-      HAServiceProtocolHelper.transitionToActive(toSvc);
+      HAServiceProtocolHelper.transitionToActive(toSvc.getProxy());
     } catch (ServiceFailedException sfe) {
-      LOG.error("Unable to make " + toSvcAddr + " active (" +
+      LOG.error("Unable to make " + toSvc + " active (" +
           sfe.getMessage() + "). Failing back.");
       failed = true;
       cause = sfe;
     } catch (IOException ioe) {
-      LOG.error("Unable to make " + toSvcAddr +
+      LOG.error("Unable to make " + toSvc +
           " active (unable to connect). Failing back.", ioe);
       failed = true;
       cause = ioe;
@@ -163,7 +182,7 @@ public class FailoverController {
 
     // We failed to make toSvc active
     if (failed) {
-      String msg = "Unable to failover to " + toSvcAddr;
+      String msg = "Unable to failover to " + toSvc;
       // Only try to failback if we didn't fence fromSvc
       if (!tryFence) {
         try {
@@ -171,9 +190,9 @@ public class FailoverController {
           // become active, eg we timed out waiting for its response.
           // Unconditionally force fromSvc to become active since it
           // was previously active when we initiated failover.
-          failover(toSvc, toSvcAddr, fromSvc, fromSvcAddr, fencer, true, true);
+          failover(toSvc, fromSvc, true, true);
         } catch (FailoverFailedException ffe) {
-          msg += ". Failback to " + fromSvcAddr +
+          msg += ". Failback to " + fromSvc +
             " failed (" + ffe.getMessage() + ")";
           LOG.fatal(msg);
         }

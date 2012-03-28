@@ -18,6 +18,15 @@
 
 package org.apache.hadoop.yarn.server.resourcemanager.rmapp;
 
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -31,12 +40,15 @@ import org.apache.hadoop.yarn.server.resourcemanager.RMAppManagerEvent;
 import org.apache.hadoop.yarn.server.resourcemanager.RMAppManagerEventType;
 import org.apache.hadoop.yarn.server.resourcemanager.RMContext;
 import org.apache.hadoop.yarn.server.resourcemanager.recovery.ApplicationsStore.ApplicationStore;
+import org.apache.hadoop.yarn.server.resourcemanager.rmapp.RMAppNodeUpdateEvent.RMAppNodeUpdateType;
 import org.apache.hadoop.yarn.server.resourcemanager.resource.Resources;
 import org.apache.hadoop.yarn.server.resourcemanager.rmapp.attempt.RMAppAttempt;
 import org.apache.hadoop.yarn.server.resourcemanager.rmapp.attempt.RMAppAttemptEvent;
 import org.apache.hadoop.yarn.server.resourcemanager.rmapp.attempt.RMAppAttemptEventType;
 import org.apache.hadoop.yarn.server.resourcemanager.rmapp.attempt.RMAppAttemptImpl;
+import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNode;
 import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNodeCleanAppEvent;
+import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNodeState;
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.YarnScheduler;
 import org.apache.hadoop.yarn.state.*;
 import org.apache.hadoop.yarn.util.BuilderUtils;
@@ -72,6 +84,7 @@ public class  RMAppImpl implements RMApp {
   private final Map<ApplicationAttemptId, RMAppAttempt> attempts
       = new LinkedHashMap<ApplicationAttemptId, RMAppAttempt>();
   private final long submitTime;
+  private final Set<RMNode> updatedNodes = new HashSet<RMNode>();
 
   // Mutable fields
   private long startTime;
@@ -92,6 +105,8 @@ public class  RMAppImpl implements RMApp {
 
 
      // Transitions from NEW state
+    .addTransition(RMAppState.NEW, RMAppState.NEW,
+        RMAppEventType.NODE_UPDATE, new RMAppNodeUpdateTransition())
     .addTransition(RMAppState.NEW, RMAppState.SUBMITTED,
         RMAppEventType.START, new StartAppAttemptTransition())
     .addTransition(RMAppState.NEW, RMAppState.KILLED, RMAppEventType.KILL,
@@ -100,6 +115,8 @@ public class  RMAppImpl implements RMApp {
         RMAppEventType.APP_REJECTED, new AppRejectedTransition())
 
      // Transitions from SUBMITTED state
+    .addTransition(RMAppState.SUBMITTED, RMAppState.SUBMITTED,
+        RMAppEventType.NODE_UPDATE, new RMAppNodeUpdateTransition())
     .addTransition(RMAppState.SUBMITTED, RMAppState.FAILED,
         RMAppEventType.APP_REJECTED, new AppRejectedTransition())
     .addTransition(RMAppState.SUBMITTED, RMAppState.ACCEPTED,
@@ -108,6 +125,8 @@ public class  RMAppImpl implements RMApp {
         RMAppEventType.KILL, new KillAppAndAttemptTransition())
 
      // Transitions from ACCEPTED state
+    .addTransition(RMAppState.ACCEPTED, RMAppState.ACCEPTED,
+        RMAppEventType.NODE_UPDATE, new RMAppNodeUpdateTransition())
     .addTransition(RMAppState.ACCEPTED, RMAppState.RUNNING,
         RMAppEventType.ATTEMPT_REGISTERED)
     .addTransition(RMAppState.ACCEPTED,
@@ -118,6 +137,8 @@ public class  RMAppImpl implements RMApp {
         RMAppEventType.KILL, new KillAppAndAttemptTransition())
 
      // Transitions from RUNNING state
+    .addTransition(RMAppState.RUNNING, RMAppState.RUNNING,
+        RMAppEventType.NODE_UPDATE, new RMAppNodeUpdateTransition())
     .addTransition(RMAppState.RUNNING, RMAppState.FINISHED,
         RMAppEventType.ATTEMPT_FINISHED, FINAL_TRANSITION)
     .addTransition(RMAppState.RUNNING,
@@ -130,10 +151,16 @@ public class  RMAppImpl implements RMApp {
      // Transitions from FINISHED state
     .addTransition(RMAppState.FINISHED, RMAppState.FINISHED,
         RMAppEventType.KILL)
+     // ignorable transitions
+    .addTransition(RMAppState.FINISHED, RMAppState.FINISHED,
+        RMAppEventType.NODE_UPDATE)
 
      // Transitions from FAILED state
     .addTransition(RMAppState.FAILED, RMAppState.FAILED,
         RMAppEventType.KILL)
+     // ignorable transitions
+    .addTransition(RMAppState.FAILED, RMAppState.FAILED, 
+        RMAppEventType.NODE_UPDATE)
 
      // Transitions from KILLED state
     .addTransition(
@@ -143,6 +170,9 @@ public class  RMAppImpl implements RMApp {
             RMAppEventType.APP_REJECTED, RMAppEventType.KILL,
             RMAppEventType.ATTEMPT_FINISHED, RMAppEventType.ATTEMPT_FAILED,
             RMAppEventType.ATTEMPT_KILLED))
+     // ignorable transitions
+    .addTransition(RMAppState.KILLED, RMAppState.KILLED,
+        RMAppEventType.NODE_UPDATE)
 
      .installTopology();
 
@@ -315,6 +345,18 @@ public class  RMAppImpl implements RMApp {
     throw new YarnException("Unknown state passed!");
   }
 
+  @Override
+  public int pullRMNodeUpdates(Collection<RMNode> updatedNodes) {
+    this.writeLock.lock();
+    try {
+      int updatedNodeCount = this.updatedNodes.size();
+      updatedNodes.addAll(this.updatedNodes);
+      this.updatedNodes.clear();
+      return updatedNodeCount;
+    } finally {
+      this.writeLock.unlock();
+    }
+  }
   
   @Override
   public ApplicationReport createAndGetApplicationReport(boolean allowAccess) {
@@ -447,6 +489,13 @@ public class  RMAppImpl implements RMApp {
     handler.handle(
         new RMAppAttemptEvent(appAttemptId, RMAppAttemptEventType.START));
   }
+  
+  private void processNodeUpdate(RMAppNodeUpdateType type, RMNode node) {
+    RMNodeState nodeState = node.getState();
+    updatedNodes.add(node);
+    LOG.debug("Received node update event:" + type + " for node:" + node
+        + " with state:" + nodeState);
+  }
 
   private static class RMAppTransition implements
       SingleArcTransition<RMAppImpl, RMAppEvent> {
@@ -455,6 +504,14 @@ public class  RMAppImpl implements RMApp {
 
   }
 
+  private static final class RMAppNodeUpdateTransition extends RMAppTransition {
+    public void transition(RMAppImpl app, RMAppEvent event) {
+      RMAppNodeUpdateEvent nodeUpdateEvent = (RMAppNodeUpdateEvent) event;
+      app.processNodeUpdate(nodeUpdateEvent.getUpdateType(),
+          nodeUpdateEvent.getNode());
+    };
+  }
+  
   private static final class StartAppAttemptTransition extends RMAppTransition {
     public void transition(RMAppImpl app, RMAppEvent event) {
       app.createNewAttempt();
