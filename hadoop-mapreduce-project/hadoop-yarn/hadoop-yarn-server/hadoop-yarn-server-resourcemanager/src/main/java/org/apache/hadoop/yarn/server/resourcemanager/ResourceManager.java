@@ -120,7 +120,6 @@ public class ResourceManager extends CompositeService implements Recoverable {
   public ResourceManager(Store store) {
     super("ResourceManager");
     this.store = store;
-    this.nodesListManager = new NodesListManager();
   }
   
   public RMContext getRMContext() {
@@ -153,7 +152,11 @@ public class ResourceManager extends CompositeService implements Recoverable {
     this.rmContext = new RMContextImpl(this.store, this.rmDispatcher,
         this.containerAllocationExpirer, amLivelinessMonitor, tokenRenewer);
 
-      ////when new resourcemanager, new nodesListManager
+    // Register event handler for NodesListManager
+    this.nodesListManager = new NodesListManager(this.rmContext);
+    this.rmDispatcher.register(NodesListManagerEventType.class, 
+        this.nodesListManager);
+
     addService(nodesListManager);
 
     // Initialize the scheduler
@@ -173,7 +176,7 @@ public class ResourceManager extends CompositeService implements Recoverable {
 
     // Register event handler for RmNodes
     this.rmDispatcher.register(RMNodeEventType.class,
-        new NodeEventDispatcher(this.rmContext));
+        new NodeEventDispatcher(this.rmContext));    
 
     //TODO change this to be random
     this.appTokenSecretManager.setMasterKey(ApplicationTokenSecretManager
@@ -426,7 +429,7 @@ public class ResourceManager extends CompositeService implements Recoverable {
       }
     }
   }
-
+  
   protected void startWepApp() {
     Builder<ApplicationMasterService> builder = 
       WebApps.$for("cluster", ApplicationMasterService.class, masterService, "ws").at(

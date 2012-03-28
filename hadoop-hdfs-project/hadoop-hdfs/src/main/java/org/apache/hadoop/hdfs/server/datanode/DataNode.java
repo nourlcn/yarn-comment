@@ -124,6 +124,7 @@ import org.apache.hadoop.hdfs.server.common.JspHelper;
 import org.apache.hadoop.hdfs.server.common.StorageInfo;
 import org.apache.hadoop.hdfs.server.common.Util;
 import org.apache.hadoop.hdfs.server.datanode.SecureDataNodeStarter.SecureResources;
+import org.apache.hadoop.hdfs.server.datanode.fsdataset.FsDatasetSpi;
 import org.apache.hadoop.hdfs.server.datanode.fsdataset.FsVolumeSpi;
 import org.apache.hadoop.hdfs.server.datanode.metrics.DataNodeMetrics;
 import org.apache.hadoop.hdfs.server.datanode.web.resources.DatanodeWebHdfsMethods;
@@ -235,7 +236,7 @@ public class DataNode extends Configured
   
   volatile boolean shouldRun = true;
   private BlockPoolManager blockPoolManager;
-  volatile FSDatasetInterface<? extends FsVolumeSpi> data = null;
+  volatile FsDatasetSpi<? extends FsVolumeSpi> data = null;
   private String clusterId = null;
 
   public final static String EMPTY_DEL_HINT = "";
@@ -814,8 +815,8 @@ public class DataNode extends Configured
    * handshake with the the first namenode is completed.
    */
   private void initStorage(final NamespaceInfo nsInfo) throws IOException {
-    final FSDatasetInterface.Factory<? extends FSDatasetInterface<?>> factory
-        = FSDatasetInterface.Factory.getFactory(conf);
+    final FsDatasetSpi.Factory<? extends FsDatasetSpi<?>> factory
+        = FsDatasetSpi.Factory.getFactory(conf);
     
     if (!factory.isSimulated()) {
       final StartupOption startOpt = getStartupOption(conf);
@@ -833,7 +834,7 @@ public class DataNode extends Configured
 
     synchronized(this)  {
       if (data == null) {
-        data = factory.createFSDatasetInterface(this, storage, conf);
+        data = factory.newInstance(this, storage, conf);
       }
     }
   }
@@ -1700,7 +1701,7 @@ public class DataNode extends Configured
    * 
    * @return the fsdataset that stores the blocks
    */
-  FSDatasetInterface<?> getFSDataset() {
+  FsDatasetSpi<?> getFSDataset() {
     return data;
   }
 
@@ -1770,10 +1771,9 @@ public class DataNode extends Configured
    * Update replica with the new generation stamp and length.  
    */
   @Override // InterDatanodeProtocol
-  public ExtendedBlock updateReplicaUnderRecovery(ExtendedBlock oldBlock,
-                                          long recoveryId,
-                                          long newLength) throws IOException {
-    ReplicaInfo r = data.updateReplicaUnderRecovery(oldBlock,
+  public String updateReplicaUnderRecovery(final ExtendedBlock oldBlock,
+      final long recoveryId, final long newLength) throws IOException {
+    final String storageID = data.updateReplicaUnderRecovery(oldBlock,
         recoveryId, newLength);
     // Notify the namenode of the updated block info. This is important
     // for HA, since otherwise the standby node may lose track of the
@@ -1782,7 +1782,7 @@ public class DataNode extends Configured
     newBlock.setGenerationStamp(recoveryId);
     newBlock.setNumBytes(newLength);
     notifyNamenodeReceivedBlock(newBlock, "");
-    return new ExtendedBlock(oldBlock.getBlockPoolId(), r);
+    return storageID;
   }
 
   /** A convenient class used in block recovery */
@@ -1791,12 +1791,20 @@ public class DataNode extends Configured
     final InterDatanodeProtocol datanode;
     final ReplicaRecoveryInfo rInfo;
     
+    private String storageID;
+
     BlockRecord(DatanodeID id,
                 InterDatanodeProtocol datanode,
                 ReplicaRecoveryInfo rInfo) {
       this.id = id;
       this.datanode = datanode;
       this.rInfo = rInfo;
+    }
+
+    void updateReplicaUnderRecovery(String bpid, long recoveryId, long newLength 
+        ) throws IOException {
+      final ExtendedBlock b = new ExtendedBlock(bpid, rInfo);
+      storageID = datanode.updateReplicaUnderRecovery(b, recoveryId, newLength);
     }
 
     @Override
@@ -1875,6 +1883,7 @@ public class DataNode extends Configured
   void syncBlock(RecoveringBlock rBlock,
                          List<BlockRecord> syncList) throws IOException {
     ExtendedBlock block = rBlock.getBlock();
+    final String bpid = block.getBlockPoolId();
     DatanodeProtocolClientSideTranslatorPB nn =
       getActiveNamenodeForBP(block.getBlockPoolId());
     if (nn == null) {
@@ -1894,7 +1903,7 @@ public class DataNode extends Configured
     // The block can be deleted.
     if (syncList.isEmpty()) {
       nn.commitBlockSynchronization(block, recoveryId, 0,
-          true, true, DatanodeID.EMPTY_ARRAY);
+          true, true, DatanodeID.EMPTY_ARRAY, null);
       return;
     }
 
@@ -1917,8 +1926,8 @@ public class DataNode extends Configured
     // Calculate list of nodes that will participate in the recovery
     // and the new block size
     List<BlockRecord> participatingList = new ArrayList<BlockRecord>();
-    final ExtendedBlock newBlock = new ExtendedBlock(block.getBlockPoolId(), block
-        .getBlockId(), -1, recoveryId);
+    final ExtendedBlock newBlock = new ExtendedBlock(bpid, block.getBlockId(),
+        -1, recoveryId);
     switch(bestState) {
     case FINALIZED:
       assert finalizedLength > 0 : "finalizedLength is not positive";
@@ -1949,16 +1958,11 @@ public class DataNode extends Configured
     }
 
     List<DatanodeID> failedList = new ArrayList<DatanodeID>();
-    List<DatanodeID> successList = new ArrayList<DatanodeID>();
+    final List<BlockRecord> successList = new ArrayList<BlockRecord>();
     for(BlockRecord r : participatingList) {
       try {
-        ExtendedBlock reply = r.datanode.updateReplicaUnderRecovery(
-            new ExtendedBlock(newBlock.getBlockPoolId(), r.rInfo), recoveryId,
-            newBlock.getNumBytes());
-        assert reply.equals(newBlock) &&
-               reply.getNumBytes() == newBlock.getNumBytes() :
-          "Updated replica must be the same as the new block.";
-        successList.add(r.id);
+        r.updateReplicaUnderRecovery(bpid, recoveryId, newBlock.getNumBytes());
+        successList.add(r);
       } catch (IOException e) {
         InterDatanodeProtocol.LOG.warn("Failed to updateBlock (newblock="
             + newBlock + ", datanode=" + r.id + ")", e);
@@ -1979,10 +1983,16 @@ public class DataNode extends Configured
     }
 
     // Notify the name-node about successfully recovered replicas.
-    DatanodeID[] nlist = successList.toArray(new DatanodeID[successList.size()]);
+    final DatanodeID[] datanodes = new DatanodeID[successList.size()];
+    final String[] storages = new String[datanodes.length];
+    for(int i = 0; i < datanodes.length; i++) {
+      final BlockRecord r = successList.get(i);
+      datanodes[i] = r.id;
+      storages[i] = r.storageID;
+    }
     nn.commitBlockSynchronization(block,
         newBlock.getGenerationStamp(), newBlock.getNumBytes(), true, false,
-        nlist);
+        datanodes, storages);
   }
   
   private static void logRecoverBlock(String who,
