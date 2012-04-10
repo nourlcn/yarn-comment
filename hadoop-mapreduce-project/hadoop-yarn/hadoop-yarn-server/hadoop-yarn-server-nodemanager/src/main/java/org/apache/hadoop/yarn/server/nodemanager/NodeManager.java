@@ -248,9 +248,6 @@ public class NodeManager extends CompositeService implements
   
   private void initAndStartNodeManager(boolean hasToReboot) {
     try {
-      ////
-//        LOG.info("[ACT-HADOOP] enter init nodemanager");
-
       // Remove the old hook if we are rebooting.
       if (hasToReboot && null != nodeManagerShutdownHook) {
         Runtime.getRuntime().removeShutdownHook(nodeManagerShutdownHook);

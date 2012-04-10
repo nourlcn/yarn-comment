@@ -71,6 +71,8 @@ public interface ContainerManager {
    */
   @Public
   @Stable
+  ////empty response if ContainerManager accept request
+  //// request send from AM
   StartContainerResponse startContainer(StartContainerRequest request)
       throws YarnRemoteException;
 
