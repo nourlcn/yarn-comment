@@ -154,9 +154,8 @@ public class ResourceManager extends CompositeService implements Recoverable {
         this.containerAllocationExpirer, amLivelinessMonitor, tokenRenewer);
 
     // Register event handler for NodesListManager
-    this.nodesListManager = new NodesListManager(this.rmContext);
-    this.rmDispatcher.register(NodesListManagerEventType.class, 
-        this.nodesListManager);
+    ////this.nodesListManager = new NodesListManager(this.rmContext);
+    ////this.rmDispatcher.register(NodesListManagerEventType.class, this.nodesListManager);
     addService(nodesListManager);
 
     // Initialize the scheduler

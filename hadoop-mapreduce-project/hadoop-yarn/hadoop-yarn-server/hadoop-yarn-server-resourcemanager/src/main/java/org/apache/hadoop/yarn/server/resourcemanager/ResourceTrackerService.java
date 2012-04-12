@@ -17,11 +17,6 @@
  */
 package org.apache.hadoop.yarn.server.resourcemanager;
 
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-
-import javax.crypto.SecretKey;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -47,16 +42,15 @@ import org.apache.hadoop.yarn.server.api.records.NodeAction;
 import org.apache.hadoop.yarn.server.api.records.NodeStatus;
 import org.apache.hadoop.yarn.server.api.records.RegistrationResponse;
 import org.apache.hadoop.yarn.server.resourcemanager.recovery.Store.RMState;
-import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNode;
-import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNodeEvent;
-import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNodeEventType;
-import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNodeImpl;
-import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNodeReconnectEvent;
-import org.apache.hadoop.yarn.server.resourcemanager.rmnode.RMNodeStatusEvent;
+import org.apache.hadoop.yarn.server.resourcemanager.rmnode.*;
 import org.apache.hadoop.yarn.server.resourcemanager.security.authorize.RMPolicyProvider;
 import org.apache.hadoop.yarn.server.security.ContainerTokenSecretManager;
 import org.apache.hadoop.yarn.service.AbstractService;
 import org.apache.hadoop.yarn.util.RackResolver;
+
+import javax.crypto.SecretKey;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 
 public class ResourceTrackerService extends AbstractService implements
     ResourceTracker {
@@ -113,6 +107,7 @@ public class ResourceTrackerService extends AbstractService implements
       YarnConfiguration.RM_RESOURCE_TRACKER_ADDRESS);
 
     RackResolver.init(conf);
+      ////All abstract Service init: set status and print log
     super.init(conf);
   }
 
@@ -147,6 +142,8 @@ public class ResourceTrackerService extends AbstractService implements
     super.stop();
   }
 
+
+    ////When Node Started, all node must send register request with this method.
   @SuppressWarnings("unchecked")
   @Override
   public RegisterNodeManagerResponse registerNodeManager(

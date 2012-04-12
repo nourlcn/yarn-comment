@@ -18,16 +18,6 @@
 
 package org.apache.hadoop.yarn.server.nodemanager;
 
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Map.Entry;
-
 import org.apache.avro.AvroRuntimeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,13 +25,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.net.NetUtils;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.yarn.YarnException;
-import org.apache.hadoop.yarn.api.records.ApplicationId;
-import org.apache.hadoop.yarn.api.records.ContainerId;
-import org.apache.hadoop.yarn.api.records.ContainerState;
-import org.apache.hadoop.yarn.api.records.ContainerStatus;
-import org.apache.hadoop.yarn.api.records.NodeHealthStatus;
-import org.apache.hadoop.yarn.api.records.NodeId;
-import org.apache.hadoop.yarn.api.records.Resource;
+import org.apache.hadoop.yarn.api.records.*;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.event.Dispatcher;
 import org.apache.hadoop.yarn.exceptions.YarnRemoteException;
@@ -59,6 +43,10 @@ import org.apache.hadoop.yarn.server.nodemanager.containermanager.container.Cont
 import org.apache.hadoop.yarn.server.nodemanager.metrics.NodeManagerMetrics;
 import org.apache.hadoop.yarn.server.security.ContainerTokenSecretManager;
 import org.apache.hadoop.yarn.service.AbstractService;
+
+import java.net.InetSocketAddress;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 public class NodeStatusUpdaterImpl extends AbstractService implements
@@ -114,6 +102,7 @@ public class NodeStatusUpdaterImpl extends AbstractService implements
             YarnConfiguration.DEFAULT_NM_TO_RM_HEARTBEAT_INTERVAL_MS);
     int memoryMb = conf.getInt(YarnConfiguration.NM_PMEM_MB, YarnConfiguration.DEFAULT_NM_PMEM_MB);
     this.totalResource = recordFactory.newRecordInstance(Resource.class);
+      ////when register with RM, using this var.
     this.totalResource.setMemory(memoryMb);
     metrics.addResource(totalResource);
     this.tokenKeepAliveEnabled =
@@ -144,6 +133,8 @@ public class NodeStatusUpdaterImpl extends AbstractService implements
       this.httpPort = httpBindAddress.getPort();
       // Registration has to be in start so that ContainerManager can get the
       // perNM tokens needed to authenticate ContainerTokens.
+
+        ////When NodeManager Started, config self and then register with RM
       registerWithRM();
       super.start();
       startStatusUpdater();
@@ -193,6 +184,8 @@ public class NodeStatusUpdaterImpl extends AbstractService implements
     request.setHttpPort(this.httpPort);
     request.setResource(this.totalResource);
     request.setNodeId(this.nodeId);
+
+      ////RM add this node in nmLivelinessMonitor, and return a response.
     RegistrationResponse regResponse =
         this.resourceTracker.registerNodeManager(request).getRegistrationResponse();
     // if the Resourcemanager instructs NM to shutdown.

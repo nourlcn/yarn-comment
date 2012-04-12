@@ -136,9 +136,11 @@ public class NodeManager extends CompositeService implements
         dispatcher, nodeHealthChecker, this.containerTokenSecretManager);
     nodeStatusUpdater.register(this);
 
+      ////nodeResourceMonitor seems to be null.
     NodeResourceMonitor nodeResourceMonitor = createNodeResourceMonitor();
     addService(nodeResourceMonitor);
 
+      ////containersLauncher is in ContainerManagerImpl
     ContainerManagerImpl containerManager =
         createContainerManager(context, exec, del, nodeStatusUpdater,
         this.containerTokenSecretManager, this.aclsManager, dirsHandler);

@@ -26,7 +26,6 @@ import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.yarn.api.ContainerManager;
 import org.apache.hadoop.yarn.api.protocolrecords.*;
 import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.*;
-import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnRemoteException;
 import org.apache.hadoop.yarn.ipc.ProtoOverHadoopRpcEngine;
 import org.apache.hadoop.yarn.proto.ContainerManager.ContainerManagerService;
@@ -41,8 +40,7 @@ import java.net.InetSocketAddress;
 public class ContainerManagerPBClientImpl implements ContainerManager {
 
   // Not a documented config. Only used for tests
-  static final String NM_COMMAND_TIMEOUT = YarnConfiguration.YARN_PREFIX
-      + "rpc.nm-command-timeout";
+  // static final String NM_COMMAND_TIMEOUT = YarnConfiguration.YARN_PREFIX + "rpc.nm-command-timeout";
   /**
    *  Maximum of 1 minute timeout for a Node to react to the command
    */
