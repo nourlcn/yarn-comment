@@ -183,8 +183,6 @@ public interface MRJobConfig {
 
   public static final String MAP_JAVA_OPTS = "mapreduce.map.java.opts";
 
-  public static final String MAP_ULIMIT = "mapreduce.map.ulimit";
-
   public static final String MAP_MAX_ATTEMPTS = "mapreduce.map.maxattempts";
 
   public static final String MAP_DEBUG_SCRIPT = "mapreduce.map.debug.script";
@@ -243,8 +241,6 @@ public interface MRJobConfig {
 
   public static final String REDUCE_JAVA_OPTS = "mapreduce.reduce.java.opts";
 
-  public static final String REDUCE_ULIMIT = "mapreduce.reduce.ulimit";
-  
   public static final String MAPREDUCE_JOB_DIR = "mapreduce.job.dir";
 
   public static final String REDUCE_MAX_ATTEMPTS = "mapreduce.reduce.maxattempts";
@@ -328,6 +324,13 @@ public interface MRJobConfig {
   public static final String MR_CLIENT_TO_AM_IPC_MAX_RETRIES = 
     MR_PREFIX + "client-am.ipc.max-retries";
   public static final int DEFAULT_MR_CLIENT_TO_AM_IPC_MAX_RETRIES = 3;
+  
+  /**
+   * The number of client retries to the RM/HS/AM before throwing exception.
+   */
+  public static final String MR_CLIENT_MAX_RETRIES = 
+    MR_PREFIX + "client.max-retries";
+  public static final int DEFAULT_MR_CLIENT_MAX_RETRIES = 3;
   
   /** The staging directory for map reduce.*/
   public static final String MR_AM_STAGING_DIR = 

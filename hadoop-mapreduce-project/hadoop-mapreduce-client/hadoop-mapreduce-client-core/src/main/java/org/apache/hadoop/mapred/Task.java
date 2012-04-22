@@ -965,7 +965,7 @@ abstract public class Task implements Writable, Configurable {
                    TaskReporter reporter
                    ) throws IOException, InterruptedException {
     LOG.info("Task:" + taskId + " is done."
-             + " And is in the process of commiting");
+             + " And is in the process of committing");
     updateCounters();
 
     boolean commitRequired = isCommitRequired();

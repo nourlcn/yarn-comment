@@ -340,8 +340,8 @@ public class NetUtils {
   /**
    * Returns InetSocketAddress that a client can use to 
    * connect to the server. Server.getListenerAddress() is not correct when
-   * the server binds to "0.0.0.0". This returns "127.0.0.1:port" when
-   * the getListenerAddress() returns "0.0.0.0:port".
+   * the server binds to "0.0.0.0". This returns "hostname:port" of the server,
+   * or "127.0.0.1:port" when the getListenerAddress() returns "0.0.0.0:port".
    * 
    * @param server
    * @return socket address that a client can use to connect to the server.
@@ -349,7 +349,12 @@ public class NetUtils {
   public static InetSocketAddress getConnectAddress(Server server) {
     InetSocketAddress addr = server.getListenerAddress();
     if (addr.getAddress().isAnyLocalAddress()) {
-      addr = createSocketAddrForHost("127.0.0.1", addr.getPort());
+      try {
+        addr = new InetSocketAddress(InetAddress.getLocalHost(), addr.getPort());
+      } catch (UnknownHostException uhe) {
+        // shouldn't get here unless the host doesn't have a loopback iface
+        addr = createSocketAddrForHost("127.0.0.1", addr.getPort());
+      }
     }
     return addr;
   }
@@ -607,6 +612,13 @@ public class NetUtils {
   }
   
   /**
+   * Compose a "host:port" string from the address.
+   */
+  public static String getHostPortString(InetSocketAddress addr) {
+    return addr.getHostName() + ":" + addr.getPort();
+  }
+  
+  /**
    * Checks if {@code host} is a local host name and return {@link InetAddress}
    * corresponding to that address.
    * 
@@ -621,7 +633,7 @@ public class NetUtils {
     }
     InetAddress addr = null;
     try {
-      addr = InetAddress.getByName(host);
+      addr = SecurityUtil.getByName(host);
       if (NetworkInterface.getByInetAddress(addr) == null) {
         addr = null; // Not a local address
       }

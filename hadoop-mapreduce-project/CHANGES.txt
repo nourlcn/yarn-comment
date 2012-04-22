@@ -11,6 +11,24 @@ Release 0.23.3 - UNRELEASED
 
   IMPROVEMENTS
 
+    MAPREDUCE-4059. The history server should have a separate pluggable 
+    storage/query interface. (Robert Evans via tgraves)
+
+    MAPREDUCE-3942. Randomize master key generation for
+    ApplicationTokenSecretManager and roll it every so often. (Vinod Kumar
+    Vavilapalli via sseth)
+
+    MAPREDUCE-4151. RM scheduler web page should filter apps to those that 
+    are relevant to scheduling (Jason Lowe via tgraves)
+
+    MAPREDUCE-4134. Remove references of mapred.child.ulimit etc. since they
+    are not being used any more (Ravi Prakash via bobby)
+
+    MAPREDUCE-3972. Fix locking and exception issues in JobHistory server.
+    (Robert Joseph Evans via sseth)
+
+    MAPREDUCE-4161. create sockets consistently (Daryn Sharp via bobby)
+
   OPTIMIZATIONS
 
   BUG FIXES
@@ -64,6 +82,55 @@ Release 0.23.3 - UNRELEASED
 
     MAPREDUCE-4117. mapred job -status throws NullPointerException (Devaraj K
     via bobby)
+
+    MAPREDUCE-4099. ApplicationMaster may fail to remove staging directory
+    (Jason Lowe via bobby)
+
+    MAPREDUCE-4017. Add jobname to jobsummary log (tgraves and Koji Noguchi
+    via bobby)
+
+    MAPREDUCE-4040. History links should use hostname rather than IP address.
+    (Bhallamudi Venkata Siva Kamesh via sseth)
+
+    MAPREDUCE-4099 amendment. ApplicationMaster will remove staging directory
+    after the history service is stopped. (Jason Lowe via sseth)
+
+    MAPREDUCE-3932. Fix the TaskAttempt state machine to handle
+    CONTIANER_LAUNCHED and CONTIANER_LAUNCH_FAILED events in additional
+    states. (Robert Joseph Evans via sseth)
+
+    MAPREDUCE-4140. mapreduce classes incorrectly importing
+    "clover.org.apache.*" classes. (Patrick Hunt via tomwhite)
+
+    MAPREDUCE-4050. For tasks without assigned containers, changes the node
+    text on the UI to N/A instead of a link to null. (Bhallamudi Venkata Siva
+    Kamesh via sseth)
+
+    MAPREDUCE-4128. AM Recovery expects all attempts of a completed task to
+    also be completed. (Bikas Saha via bobby)
+
+    MAPREDUCE-4144. Fix a NPE in the ResourceManager when handling node
+    updates. (Jason Lowe via sseth)
+
+    MAPREDUCE-4156. ant build fails compiling JobInProgress (tgraves)
+
+    MAPREDUCE-4160. some mrv1 ant tests fail with timeout - due to 4156 
+    (tgraves)
+
+    MAPREDUCE-4074. Client continuously retries to RM When RM goes down 
+    before launching Application Master (xieguiming via tgraves)
+
+    MAPREDUCE-4159. Job is running in Uber mode after setting 
+    "mapreduce.job.ubertask.maxreduces" to zero (Devaraj K via bobby)
+
+    MAPREDUCE-4165. Committing is misspelled as commiting in task logs
+    (John Eagles via bobby)
+
+    MAPREDUCE-4129. Lots of unneeded counters log messages (Ahmed Radwan via
+    bobby)
+
+    MAPREDUCE-3947. yarn.app.mapreduce.am.resource.mb not documented 
+    (Devaraj K via bobby)
 
 Release 0.23.2 - UNRELEASED
 
