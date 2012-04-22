@@ -46,6 +46,7 @@ import org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.Capacity
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacitySchedulerConfiguration;
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler;
 import org.apache.hadoop.yarn.server.security.ApplicationACLsManager;
+import org.apache.hadoop.yarn.util.StringHelper;
 import org.apache.hadoop.yarn.webapp.WebApps;
 import org.apache.hadoop.yarn.webapp.YarnWebParams;
 import org.apache.hadoop.yarn.webapp.test.WebAppTests;
@@ -90,6 +91,11 @@ public class TestRMWebApp {
     });
     RmView rmViewInstance = injector.getInstance(RmView.class);
     rmViewInstance.set(YarnWebParams.APP_STATE, RMAppState.RUNNING.toString());
+    rmViewInstance.render();
+    WebAppTests.flushOutput(injector);
+
+    rmViewInstance.set(YarnWebParams.APP_STATE, StringHelper.cjoin(
+        RMAppState.ACCEPTED.toString(), RMAppState.RUNNING.toString()));
     rmViewInstance.render();
     WebAppTests.flushOutput(injector);
   }
@@ -151,7 +157,7 @@ public class TestRMWebApp {
     for (RMNode node : deactivatedNodes) {
       deactivatedNodesMap.put(node.getHostName(), node);
     }
-   return new RMContextImpl(new MemStore(), null, null, null, null) {
+   return new RMContextImpl(new MemStore(), null, null, null, null, null) {
       @Override
       public ConcurrentMap<ApplicationId, RMApp> getRMApps() {
         return applicationsMaps;

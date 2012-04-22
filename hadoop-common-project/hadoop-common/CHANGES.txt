@@ -8,6 +8,12 @@ Release 0.23.3 - UNRELEASED
 
   IMPROVEMENTS
 
+    HADOOP-8108. Move method getHostPortString() from NameNode to NetUtils.
+    (Brandon Li via jitendra and bobby)
+
+    HADOOP-8288. Remove references of mapred.child.ulimit etc. since they are
+    not being used any more (Ravi Prakash via bobby)
+
   OPTIMIZATIONS
 
   BUG FIXES
@@ -26,6 +32,15 @@ Release 0.23.3 - UNRELEASED
 
     HADOOP-8014. ViewFileSystem does not correctly implement getDefaultBlockSize,
     getDefaultReplication, getContentSummary (John George via bobby)
+
+    HADOOP-7510. Tokens should use original hostname provided instead of ip 
+    (Daryn Sharp via bobby)
+
+    HADOOP-8283. Allow tests to control token service value (Daryn Sharp via
+    bobby)
+
+    HADOOP-8286. Simplify getting a socket address from conf (Daryn Sharp via
+    bobby)
 
 Release 0.23.2 - UNRELEASED 
 
