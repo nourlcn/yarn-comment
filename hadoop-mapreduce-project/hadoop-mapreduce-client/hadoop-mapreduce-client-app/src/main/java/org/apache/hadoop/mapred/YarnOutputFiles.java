@@ -37,6 +37,7 @@ import org.apache.hadoop.mapreduce.MRConfig;
  * they need to write to/read from for intermediate files. The callers of
  * these methods are from child space.
  */
+//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 @InterfaceAudience.Private
 @InterfaceStability.Unstable
 public class YarnOutputFiles extends MapOutputFile {
@@ -208,6 +209,8 @@ public class YarnOutputFiles extends MapOutputFile {
    * @return path
    * @throws IOException
    */
+  ////TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  ////create reduce input files.
   public Path getInputFileForWrite(org.apache.hadoop.mapreduce.TaskID mapId,
       long size) throws IOException {
     return lDirAlloc.getLocalPathForWrite(String.format(

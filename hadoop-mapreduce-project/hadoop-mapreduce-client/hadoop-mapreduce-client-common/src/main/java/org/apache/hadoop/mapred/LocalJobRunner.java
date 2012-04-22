@@ -18,20 +18,7 @@
 
 package org.apache.hadoop.mapred;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.classification.InterfaceAudience;
@@ -42,13 +29,9 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.ipc.ProtocolSignature;
 import org.apache.hadoop.mapreduce.Cluster.JobTrackerStatus;
-import org.apache.hadoop.mapreduce.ClusterMetrics;
-import org.apache.hadoop.mapreduce.MRConfig;
+import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.OutputFormat;
-import org.apache.hadoop.mapreduce.QueueInfo;
 import org.apache.hadoop.mapreduce.TaskCompletionEvent;
-import org.apache.hadoop.mapreduce.TaskTrackerInfo;
-import org.apache.hadoop.mapreduce.TaskType;
 import org.apache.hadoop.mapreduce.protocol.ClientProtocol;
 import org.apache.hadoop.mapreduce.security.token.delegation.DelegationTokenIdentifier;
 import org.apache.hadoop.mapreduce.server.jobtracker.JTConfig;
@@ -62,7 +45,14 @@ import org.apache.hadoop.security.authorize.AccessControlList;
 import org.apache.hadoop.security.token.Token;
 import org.apache.hadoop.util.ReflectionUtils;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Implements MapReduce locally, in-process, for debugging. */
 @InterfaceAudience.Private
@@ -179,6 +169,7 @@ public class LocalJobRunner implements ClientProtocol {
           profile.getUser(), profile.getJobName(), profile.getJobFile(), 
           profile.getURL().toString());
 
+      ////<jobid,Job>
       jobs.put(id, this);
 
       this.start();
@@ -207,8 +198,11 @@ public class LocalJobRunner implements ClientProtocol {
         this.mapOutputFiles = mapOutputFiles;
         this.jobId = jobId;
         this.localConf = new JobConf(job);
+       ////
+          System.out.println("[ACT-HADOOP]Pass taskSplitInfo.getSplitLocation to MapTask:" + info.getSplitLocation());
       }
 
+      ////every map task will reach this method finally after executorService.submit(task).
       public void run() {
         try {
           TaskAttemptID mapId = new TaskAttemptID(new TaskID(
@@ -216,7 +210,7 @@ public class LocalJobRunner implements ClientProtocol {
           LOG.info("Starting task: " + mapId);
           mapIds.add(mapId);
           MapTask map = new MapTask(systemJobFile.toString(), mapId, taskId,
-            info.getSplitIndex(), 1);
+            info.getSplitIndex(), 1);////required slot num=1
           map.setUser(UserGroupInformation.getCurrentUser().
               getShortUserName());
           setupChildMapredLocalDirs(map, localConf);
@@ -259,6 +253,7 @@ public class LocalJobRunner implements ClientProtocol {
 
       int numTasks = 0;
       ArrayList<MapTaskRunnable> list = new ArrayList<MapTaskRunnable>();
+////有几个split，就会创建几个map task
       for (TaskSplitMetaInfo task : taskInfo) {
         list.add(new MapTaskRunnable(task, numTasks++, jobId,
             mapOutputFiles));
@@ -342,13 +337,17 @@ public class LocalJobRunner implements ClientProtocol {
       return committer;
     }
 
+      ////new a job(job is implimented from Thread) and then call run() method
     @Override
     public void run() {
+        ////JobProfile profile.
       JobID jobId = profile.getJobID();
       JobContext jContext = new JobContextImpl(job, jobId);
       
+      ////used for storing task and job tmp output, job tmp input files/dirs.
       org.apache.hadoop.mapreduce.OutputCommitter outputCommitter = null;
       try {
+    	  ////include info: jobid,taskid,tasktype.MAP,outputFormat
         outputCommitter = createOutputCommitter(conf.getUseNewMapper(), jobId, conf);
       } catch (Exception e) {
         LOG.info("Failed to createOutputCommitter", e);
@@ -356,6 +355,7 @@ public class LocalJobRunner implements ClientProtocol {
       }
       
       try {
+    	  ////created by jobtracker, include info: splitindex , datalength , locations.
         TaskSplitMetaInfo[] taskSplitMetaInfos = 
           SplitMetaInfoReader.readSplitMetaInfo(jobId, localFs, conf, systemJobDir);
 
@@ -371,6 +371,7 @@ public class LocalJobRunner implements ClientProtocol {
         Map<TaskAttemptID, MapOutputFile> mapOutputFiles =
             Collections.synchronizedMap(new HashMap<TaskAttemptID, MapOutputFile>());
 
+        ////return a list of maps task.
         List<MapTaskRunnable> taskRunnables = getMapTaskRunnables(taskSplitMetaInfos,
             jobId, mapOutputFiles);
         ExecutorService mapService = createMapExecutor(taskRunnables.size());
@@ -417,11 +418,14 @@ public class LocalJobRunner implements ClientProtocol {
             setupChildMapredLocalDirs(reduce, localConf);
             // move map output to reduce input  
             for (int i = 0; i < mapIds.size(); i++) {
+            	////wether current thread/task is interrupted.
               if (!this.isInterrupted()) {
                 TaskAttemptID mapId = mapIds.get(i);
+                ////return map output path.
                 Path mapOut = mapOutputFiles.get(mapId).getOutputFile();
                 MapOutputFile localOutputFile = new MROutputFiles();
                 localOutputFile.setConf(localConf);
+                ////create reduce input file.
                 Path reduceIn =
                   localOutputFile.getInputFileForWrite(mapId.getTaskID(),
                         localFs.getFileStatus(mapOut).getLen());
@@ -429,6 +433,7 @@ public class LocalJobRunner implements ClientProtocol {
                   throw new IOException("Mkdirs failed to create "
                       + reduceIn.getParent().toString());
                 }
+                ////rename, equal to copy.
                 if (!localFs.rename(mapOut, reduceIn))
                   throw new IOException("Couldn't rename " + mapOut);
               } else {
@@ -620,7 +625,12 @@ public class LocalJobRunner implements ClientProtocol {
   public org.apache.hadoop.mapreduce.JobStatus submitJob(
       org.apache.hadoop.mapreduce.JobID jobid, String jobSubmitDir,
       Credentials credentials) throws IOException {
-    Job job = new Job(JobID.downgrade(jobid), jobSubmitDir);
+	  
+	  ////Important
+	  System.out.println("[ACT-HADOOP]!!!!!!!!!1Job run using LocalJobRunner.submitJob()!!!!!!!!!!!!!!!!!!!!!!!!");
+	  
+    ////Job extends Thread, run()
+	  Job job = new Job(JobID.downgrade(jobid), jobSubmitDir);
     job.job.setCredentials(credentials);
     return job.status;
 

@@ -557,6 +557,7 @@ abstract public class Task implements Writable, Configurable {
         FileOutputFormat.setWorkOutputPath(conf, outputPath);
       }
     }
+    ////setup Reduce Task
     committer.setupTask(taskContext);
     Class<? extends ResourceCalculatorPlugin> clazz =
         conf.getClass(MRConfig.RESOURCE_CALCULATOR_PLUGIN,
@@ -974,6 +975,7 @@ abstract public class Task implements Writable, Configurable {
       // say the task tracker that task is commit pending
       while (true) {
         try {
+        	////report taskid and status, is pending ?
           umbilical.commitPending(taskId, taskStatus);
           break;
         } catch (InterruptedException ie) {

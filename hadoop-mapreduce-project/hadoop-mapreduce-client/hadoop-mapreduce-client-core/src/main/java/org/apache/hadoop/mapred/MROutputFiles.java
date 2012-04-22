@@ -28,6 +28,8 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.MRConfig;
 import org.apache.hadoop.mapreduce.MRJobConfig;
 
+import clover.org.jfree.util.Log;
+
 /**
  * Manipulate the working area for the transient store for maps and reduces.
  *
@@ -43,6 +45,8 @@ public class MROutputFiles extends MapOutputFile {
     new LocalDirAllocator(MRConfig.LOCAL_DIR);
 
   public MROutputFiles() {
+	  ////
+	  Log.info("[ACT-HADOOP] Construct MROutputFiles for map.");
   }
 
   /**

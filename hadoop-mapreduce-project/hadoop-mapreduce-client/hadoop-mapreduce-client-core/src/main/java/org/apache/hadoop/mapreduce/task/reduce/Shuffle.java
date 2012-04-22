@@ -89,6 +89,8 @@ public class Shuffle<K, V> implements ExceptionReporter {
       new ShuffleScheduler<K,V>(jobConf, status, this, copyPhase, 
                                 shuffledMapsCounter, 
                                 reduceShuffleBytes, failedShuffleCounter);
+    
+    ////if in memoryMerge of memToMemoryMerge is True, start() or run() method is called.
     merger = new MergeManager<K, V>(reduceId, jobConf, localFS, 
                                     localDirAllocator, reporter, codec, 
                                     combinerClass, combineCollector, 
@@ -105,6 +107,7 @@ public class Shuffle<K, V> implements ExceptionReporter {
     eventFetcher.start();
     
     // Start the map-output fetcher threads
+    ////TODO: numFetchers should be num of reduce node
     final int numFetchers = jobConf.getInt(MRJobConfig.SHUFFLE_PARALLEL_COPIES, 5);
     Fetcher<K,V>[] fetchers = new Fetcher[numFetchers];
     for (int i=0; i < numFetchers; ++i) {
@@ -145,6 +148,7 @@ public class Shuffle<K, V> implements ExceptionReporter {
     // Finish the on-going merges...
     RawKeyValueIterator kvIter = null;
     try {
+    	////kvIter is inMemoryMergedMapOutputs or onDiskMapOutputs
       kvIter = merger.close();
     } catch (Throwable e) {
       throw new ShuffleError("Error while doing final merge " , e);

@@ -39,6 +39,8 @@ implements ApplicationSubmissionContext {
   
   private ApplicationId applicationId = null;
   private Priority priority = null;
+
+    ////needed by NodeManager to launch Container, in which AppMaster started.
   private ContainerLaunchContext amContainer = null;
   
   public ApplicationSubmissionContextPBImpl() {

@@ -408,6 +408,8 @@ public class FileOutputCommitter extends OutputCommitter {
     commitTask(context, null);
   }
 
+  
+  ////save output of task into OutputPath.
   @Private
   public void commitTask(TaskAttemptContext context, Path taskAttemptPath) 
   throws IOException {
@@ -425,6 +427,9 @@ public class FileOutputCommitter extends OutputCommitter {
             throw new IOException("Could not delete " + committedTaskPath);
           }
         }
+        ////rename src path to dst path.
+        ////equal to copy.
+        ////dst path is string, value of taskid.
         if(!fs.rename(taskAttemptPath, committedTaskPath)) {
           throw new IOException("Could not rename " + taskAttemptPath + " to "
               + committedTaskPath);

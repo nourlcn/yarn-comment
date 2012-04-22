@@ -286,12 +286,14 @@ class ShuffleScheduler<K,V> {
   }
 
   public synchronized MapHost getHost() throws InterruptedException {
-      while(pendingHosts.isEmpty()) {
+      ////TODO: why wait ?
+	  while(pendingHosts.isEmpty()) {
         wait();
       }
       
       MapHost host = null;
       Iterator<MapHost> iter = pendingHosts.iterator();
+      ////When Shuffle fetcher get host for fetching from map, return random map host.
       int numToPick = random.nextInt(pendingHosts.size());
       for (int i=0; i <= numToPick; ++i) {
         host = iter.next();

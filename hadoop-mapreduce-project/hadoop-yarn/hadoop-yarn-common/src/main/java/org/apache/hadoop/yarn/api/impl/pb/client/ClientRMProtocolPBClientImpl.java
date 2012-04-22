@@ -171,7 +171,7 @@ public class ClientRMProtocolPBClientImpl implements ClientRMProtocol {
       } else if (e.getCause() instanceof UndeclaredThrowableException) {
         throw (UndeclaredThrowableException)e.getCause();
       } else {
-        throw new UndeclaredThrowableException(e);
+        throw new UndeclaredThrowableException(e); ////Sometimes throw exception not defined here
       }
     }
   }

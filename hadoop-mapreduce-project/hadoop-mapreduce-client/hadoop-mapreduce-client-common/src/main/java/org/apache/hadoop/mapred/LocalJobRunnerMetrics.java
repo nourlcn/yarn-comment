@@ -23,6 +23,8 @@ import org.apache.hadoop.metrics.MetricsUtil;
 import org.apache.hadoop.metrics.Updater;
 import org.apache.hadoop.metrics.jvm.JvmMetrics;
 
+////Used this class to launch map task.
+
 @SuppressWarnings("deprecation")
 class LocalJobRunnerMetrics implements Updater {
   private final MetricsRecord metricsRecord;

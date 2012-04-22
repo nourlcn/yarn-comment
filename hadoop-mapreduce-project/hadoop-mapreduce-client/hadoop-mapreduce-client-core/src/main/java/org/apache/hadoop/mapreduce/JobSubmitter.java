@@ -280,7 +280,7 @@ class JobSubmitter {
    * @param conf
    * @throws IOException
    */
-  ////jobSubmitDir is /tmp staging dir. copy lib\files and so on into jobSubmitDir.
+  ////jobSubmitDir is /tmp staging dir. copy lib 、files and so on into jobSubmitDir.
   private void copyAndConfigureFiles(Job job, Path jobSubmitDir) 
   throws IOException {
     Configuration conf = job.getConfiguration();
@@ -327,7 +327,7 @@ class JobSubmitter {
   throws ClassNotFoundException, InterruptedException, IOException {
 
     //validate the jobs output specs
-      ////check use new api or not. check output validate or not.
+      ////check use new api or not. check output valid or invalid.
     checkSpecs(job);
 
       ////usually, /tmp/username as staging area.
@@ -352,23 +352,27 @@ class JobSubmitter {
 
         ////set mapreduce_job_dir as job staging tmp dir.
         conf.set(MRJobConfig.MAPREDUCE_JOB_DIR, submitJobDir.toString());
-      LOG.debug("Configuring job " + jobId + " with " + submitJobDir 
+      LOG.debug("Configuring job " + jobId + " with " + submitJobDir
           + " as the submit dir");
       // get delegation token for the dir
 
         //secret be stored in TokenCache before job be submitted. and get secret during job running.
+        ////this is a static method.
+      ////secret stored before submission and read during task.
         TokenCache.obtainTokensForNamenodes(job.getCredentials(),
           new Path[] { submitJobDir }, conf);
 
         ////get secret keys and store them into TokenCache.
       populateTokenCache(conf, job.getCredentials());
 
+      ////copy lib、files... into submitJobDir
       copyAndConfigureFiles(job, submitJobDir);
         ////change job.xml dir to Path.
       Path submitJobFile = JobSubmissionFiles.getJobConfPath(submitJobDir);
       
       // Create the splits for the job
       LOG.debug("Creating splits at " + jtFs.makeQualified(submitJobDir));
+      ////InputFormat.getSplits()
       int maps = writeSplits(job, submitJobDir);
       conf.setInt(MRJobConfig.NUM_MAPS, maps);
       LOG.info("number of splits:" + maps);
@@ -394,6 +398,7 @@ class JobSubmitter {
       // Now, actually submit the job (using the submit name)
       //
       printTokens(jobId, job.getCredentials());
+        ////find implement usage of submitJob, result: YARNRunner and LocalJobRunner
       status = submitClient.submitJob(
           jobId, submitJobDir.toString(), job.getCredentials());
       if (status != null) {
@@ -406,7 +411,6 @@ class JobSubmitter {
         LOG.info("Cleaning up the staging area " + submitJobDir);
         if (jtFs != null && submitJobDir != null)
           jtFs.delete(submitJobDir, true);
-
       }
     }
   }

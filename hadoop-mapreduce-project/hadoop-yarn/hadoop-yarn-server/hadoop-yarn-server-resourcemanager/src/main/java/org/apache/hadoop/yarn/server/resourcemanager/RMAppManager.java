@@ -17,10 +17,6 @@
  */
 package org.apache.hadoop.yarn.server.resourcemanager;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.LinkedList;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -38,14 +34,14 @@ import org.apache.hadoop.yarn.security.client.ClientToAMSecretManager;
 import org.apache.hadoop.yarn.security.client.ClientTokenIdentifier;
 import org.apache.hadoop.yarn.server.resourcemanager.RMAuditLogger.AuditConstants;
 import org.apache.hadoop.yarn.server.resourcemanager.recovery.ApplicationsStore.ApplicationStore;
-import org.apache.hadoop.yarn.server.resourcemanager.rmapp.RMApp;
-import org.apache.hadoop.yarn.server.resourcemanager.rmapp.RMAppEvent;
-import org.apache.hadoop.yarn.server.resourcemanager.rmapp.RMAppEventType;
-import org.apache.hadoop.yarn.server.resourcemanager.rmapp.RMAppImpl;
-import org.apache.hadoop.yarn.server.resourcemanager.rmapp.RMAppRejectedEvent;
+import org.apache.hadoop.yarn.server.resourcemanager.rmapp.*;
 import org.apache.hadoop.yarn.server.resourcemanager.rmapp.attempt.RMAppAttempt;
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.YarnScheduler;
 import org.apache.hadoop.yarn.server.security.ApplicationACLsManager;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.LinkedList;
 
 /**
  * This class manages the list of applications for the resource manager. 
@@ -228,6 +224,7 @@ public class RMAppManager implements EventHandler<RMAppManagerEvent> {
   protected synchronized void submitApplication(
       ApplicationSubmissionContext submissionContext, long submitTime) {
     ApplicationId applicationId = submissionContext.getApplicationId();
+      ////interface in RM to get/set status of Application.
     RMApp application = null;
     try {
       String clientTokenStr = null;
@@ -263,6 +260,7 @@ public class RMAppManager implements EventHandler<RMAppManagerEvent> {
           this.masterService, submitTime);
 
       // Sanity check - duplicate?
+        ////if application is not associated with applicationid, do it.
       if (rmContext.getRMApps().putIfAbsent(applicationId, application) != 
           null) {
         String message = "Application with id " + applicationId
@@ -284,7 +282,10 @@ public class RMAppManager implements EventHandler<RMAppManagerEvent> {
       }      
       
       // All done, start the RMApp
-      this.rmContext.getDispatcher().getEventHandler().handle(
+        ////final dispatcher is defined by AsyncDispatcher.java.
+        ////find usage of RMAppEventType.START==> ResourceManager.init(){this.rmDispatcher.retister(RMAppEventType.class)}
+        ////ResourceManager--> ApplicationEventDispatcher.handle()
+        this.rmContext.getDispatcher().getEventHandler().handle(
           new RMAppEvent(applicationId, RMAppEventType.START));
     } catch (IOException ie) {
         LOG.info("RMAppManager submit application exception", ie);

@@ -171,7 +171,7 @@ public class MergeManager<K, V> {
 
     final float singleShuffleMemoryLimitPercent =
         jobConf.getFloat(MRJobConfig.SHUFFLE_MEMORY_LIMIT_PERCENT,
-            DEFAULT_SHUFFLE_MEMORY_LIMIT_PERCENT);
+            DEFAULT_SHUFFLE_MEMORY_LIMIT_PERCENT);////defalt is 0.25
     if (singleShuffleMemoryLimitPercent <= 0.0f
         || singleShuffleMemoryLimitPercent > 1.0f) {
       throw new IllegalArgumentException("Invalid value for "

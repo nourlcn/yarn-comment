@@ -91,6 +91,7 @@ class Fetcher<K,V> extends Thread {
 
   private volatile boolean stopped = false;
 
+  ////num of fetcher is equal to num of parallel shuffle
   public Fetcher(JobConf job, TaskAttemptID reduceId, 
                  ShuffleScheduler<K,V> scheduler, MergeManager<K,V> merger,
                  Reporter reporter, ShuffleClientMetrics metrics,
@@ -128,7 +129,7 @@ class Fetcher<K,V> extends Thread {
 
     this.connectionTimeout = 
       job.getInt(MRJobConfig.SHUFFLE_CONNECT_TIMEOUT,
-                 DEFAULT_STALLED_COPY_TIMEOUT);
+                 DEFAULT_STALLED_COPY_TIMEOUT);////default 3*60*1000ms
     this.readTimeout = 
       job.getInt(MRJobConfig.SHUFFLE_READ_TIMEOUT, DEFAULT_READ_TIMEOUT);
     
@@ -136,6 +137,7 @@ class Fetcher<K,V> extends Thread {
     setDaemon(true);
   }
   
+  ////when call fetcher.start(), will exec run()
   public void run() {
     try {
       while (!stopped && !Thread.currentThread().isInterrupted()) {
@@ -203,6 +205,7 @@ class Fetcher<K,V> extends Thread {
     boolean connectSucceeded = false;
     
     try {
+    	////url is String, contain all mapid seperated by ','
       URL url = getMapOutputURL(host, maps);
       URLConnection connection = url.openConnection();
       

@@ -59,7 +59,7 @@ class MapHost {
       state = State.PENDING;
     }
   }
-  
+  ////all maps on this host
   public synchronized List<TaskAttemptID> getAndClearKnownMaps() {
     List<TaskAttemptID> currentKnownMaps = maps;
     maps = new ArrayList<TaskAttemptID>();

@@ -329,6 +329,7 @@ public class ReduceTask extends Task {
       return;
     }
     if (jobSetup) {
+    	////setup job. make tmp dir
       runJobSetupTask(umbilical, reporter);
       return;
     }
@@ -339,12 +340,15 @@ public class ReduceTask extends Task {
     
     // Initialize the codec
     codec = initCodec();
+    
+    ////used to store shuffle result.
     RawKeyValueIterator rIter = null;
     
     boolean isLocal = false; 
     // local if
     // 1) framework == local or
     // 2) framework == null and job tracker address == local
+    ////using MRv2, set framework name as 'YARN'
     String framework = job.get(MRConfig.FRAMEWORK_NAME);
     String masterAddr = job.get(MRConfig.MASTER_ADDRESS, "local");
     if ((framework == null && masterAddr.equals("local"))
@@ -352,6 +356,7 @@ public class ReduceTask extends Task {
       isLocal = true;
     }
     
+    ////!!!!combine after start reduce task?
     if (!isLocal) {
       Class combinerClass = conf.getCombinerClass();
       CombineOutputCollector combineCollector = 
@@ -368,6 +373,7 @@ public class ReduceTask extends Task {
                     mergedMapOutputsCounter,
                     taskStatus, copyPhase, sortPhase, this,
                     mapOutputFile);
+      ////after merge phase.
       rIter = shuffle.run();
     } else {
       // local job runner doesn't have a copy phase
