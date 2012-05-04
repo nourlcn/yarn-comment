@@ -18,19 +18,26 @@
 
 package org.apache.hadoop.yarn.server.nodemanager.containermanager;
 
+import static org.apache.hadoop.yarn.service.Service.STATE.STARTED;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 import org.apache.hadoop.io.DataInputByteBuffer;
 import org.apache.hadoop.ipc.Server;
+import org.apache.hadoop.net.NetUtils;
 import org.apache.hadoop.security.Credentials;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.security.authorize.PolicyProvider;
 import org.apache.hadoop.security.token.Token;
 import org.apache.hadoop.security.token.TokenIdentifier;
 import org.apache.hadoop.util.StringUtils;
-import org.apache.hadoop.yarn.YarnException;
 import org.apache.hadoop.yarn.api.ContainerManager;
 import org.apache.hadoop.yarn.api.protocolrecords.*;
 import org.apache.hadoop.yarn.api.records.*;
@@ -220,15 +227,10 @@ public class ContainerManagerImpl extends CompositeService implements
     }
     
     server.start();
-    try {
-      resolvedAddress = InetAddress.getLocalHost();
-    } catch (UnknownHostException e) {
-      throw new YarnException(e);
-    }
-    this.context.getNodeId().setHost(resolvedAddress.getCanonicalHostName());
-    this.context.getNodeId().setPort(server.getPort());
-    LOG.info("ContainerManager started at "
-        + this.context.getNodeId().toString());
+    InetSocketAddress connectAddress = NetUtils.getConnectAddress(server);
+    this.context.getNodeId().setHost(connectAddress.getHostName());
+    this.context.getNodeId().setPort(connectAddress.getPort());
+    LOG.info("ContainerManager started at " + connectAddress);
     super.start();
   }
 

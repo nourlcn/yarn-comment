@@ -26,9 +26,6 @@ import org.apache.hadoop.fs.FileContext;
 import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
-import org.apache.hadoop.ipc.Server;
-import org.apache.hadoop.net.NetUtils;
-import org.apache.hadoop.security.Credentials;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.security.token.Token;
 import org.apache.hadoop.security.token.TokenIdentifier;
@@ -196,14 +193,9 @@ public class ResourceLocalizationService extends CompositeService
         cacheCleanupPeriod, cacheCleanupPeriod, TimeUnit.MILLISECONDS);
     server = createServer();
     server.start();
-    String host = getConfig().get(YarnConfiguration.NM_LOCALIZER_ADDRESS)
-        .split(":")[0];
-    getConfig().set(YarnConfiguration.NM_LOCALIZER_ADDRESS, host + ":" 
-        + server.getPort());
-    localizationServerAddress = getConfig().getSocketAddr(
-        YarnConfiguration.NM_LOCALIZER_ADDRESS,
-        YarnConfiguration.DEFAULT_NM_LOCALIZER_ADDRESS,
-        YarnConfiguration.DEFAULT_NM_LOCALIZER_PORT);
+    localizationServerAddress =
+        getConfig().updateConnectAddr(YarnConfiguration.NM_LOCALIZER_ADDRESS,
+                                      server.getListenerAddress());
     LOG.info("Localizer started on port " + server.getPort());
     super.start();
   }

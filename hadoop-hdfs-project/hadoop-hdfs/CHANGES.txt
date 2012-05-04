@@ -26,6 +26,20 @@ Release 0.23.3 - UNRELEASED
     HDFS-3308. Uses canonical URI to select delegation tokens in HftpFileSystem
     and WebHdfsFileSystem.  (Daryn Sharp via szetszwo)
 
+    HDFS-3312. In HftpFileSystem, the namenode URI is non-secure but the
+    delegation tokens have to use secure URI.  (Daryn Sharp via szetszwo)
+
+    HDFS-3318. Use BoundedInputStream in ByteRangeInputStream, otherwise, it
+    hangs on transfers >2 GB.  (Daryn Sharp via szetszwo)
+
+    HDFS-3321. Fix safe mode turn off tip message.  (Ravi Prakash via szetszwo)
+
+    HDFS-3334. Fix ByteRangeInputStream stream leakage.  (Daryn Sharp via
+    szetszwo)
+
+    HDFS-3331. In namenode, check superuser privilege for setBalancerBandwidth
+    and acquire the write lock for finalizeUpgrade.  (szetszwo)
+
 Release 0.23.2 - UNRELEASED
 
   INCOMPATIBLE CHANGES
