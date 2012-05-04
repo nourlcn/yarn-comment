@@ -42,6 +42,19 @@ Release 0.23.3 - UNRELEASED
     HADOOP-8286. Simplify getting a socket address from conf (Daryn Sharp via
     bobby)
 
+    HADOOP-8305. distcp over viewfs is broken (John George via bobby)
+
+    HADOOP-8334. HttpServer sometimes returns incorrect port (Daryn Sharp via
+    bobby)
+
+    HADOOP-8330. Update TestSequenceFile.testCreateUsesFsArg() for HADOOP-8305.
+    (John George via szetszwo)
+
+    HADOOP-8335. Improve Configuration's address handling (Daryn Sharp via
+    bobby)
+
+    HADOOP-8104. Inconsistent Jackson versions (tucu)
+
 Release 0.23.2 - UNRELEASED 
 
   NEW FEATURES

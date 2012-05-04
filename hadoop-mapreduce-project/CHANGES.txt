@@ -7,6 +7,9 @@ Release 0.23.3 - UNRELEASED
     MAPREDUCE-4072. User set java.library.path seems to overwrite default
     creating problems native lib loading (Anupam Seth via bobby)
 
+    MAPREDUCE-3812. Lower default allocation sizes, fix allocation 
+    configurations and document them (Harsh J via bobby)
+
   NEW FEATURES
 
   IMPROVEMENTS
@@ -28,6 +31,11 @@ Release 0.23.3 - UNRELEASED
     (Robert Joseph Evans via sseth)
 
     MAPREDUCE-4161. create sockets consistently (Daryn Sharp via bobby)
+
+    MAPREDUCE-4079. Allow MR AppMaster to limit ephemeral port range.
+    (bobby via tgraves)
+
+    MAPREDUCE-4210. Expose listener address for WebApp (Daryn Sharp via bobby)
 
   OPTIMIZATIONS
 
@@ -131,6 +139,37 @@ Release 0.23.3 - UNRELEASED
 
     MAPREDUCE-3947. yarn.app.mapreduce.am.resource.mb not documented 
     (Devaraj K via bobby)
+
+    MAPREDUCE-4190. Improve web UI for task attempts userlog link (Tom Graves
+    via bobby)
+
+    MAPREDUCE-4133. MR over viewfs is broken (John George via bobby)
+
+    MAPREDUCE-4194. ConcurrentModificationError in DirectoryCollection
+    (Jonathan Eagles via bobby)
+
+    MAPREDUCE-3613. web service calls header contains 2 content types
+    (tgraves)
+
+    MAPREDUCE-4169. Container Logs appear in unsorted order (Jonathan Eagles
+    via bobby)
+
+    MAPREDUCE-4189. TestContainerManagerSecurity is failing (Devaraj K via
+    bobby)
+
+    MAPREDUCE-4209. junit dependency in hadoop-mapreduce-client is missing
+    scope test (Radim Kolar via bobby)
+
+    MAPREDUCE-4206. Sorting by Last Health-Update on the RM nodes page sorts
+    does not work correctly (Jonathon Eagles via tgraves)
+
+    MAPREDUCE-4212. TestJobClientGetJob sometimes fails 
+    (Daryn Sharp via tgraves)
+
+    MAPREDUCE-4211. Error conditions (missing appid, appid not found) are 
+    masked in the RM app page (Jonathan Eagles via bobby)
+
+    MAPREDUCE-4163. consistently set the bind address (Daryn Sharp via bobby)
 
 Release 0.23.2 - UNRELEASED
 

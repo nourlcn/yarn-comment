@@ -47,6 +47,7 @@ import org.apache.hadoop.io.DataInputBuffer;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.net.NetUtils;
 import org.apache.hadoop.security.AccessControlException;
+import org.apache.hadoop.security.SecurityUtil;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.security.token.Token;
 import org.apache.hadoop.yarn.api.AMRMProtocol;
@@ -396,10 +397,10 @@ public class TestContainerManagerSecurity {
     Token<ApplicationTokenIdentifier> appToken =
         new Token<ApplicationTokenIdentifier>(appTokenIdentifier,
           appTokenSecretManager);
-    appToken.setService(new Text(schedulerAddr.getHostName() + ":"
-        + schedulerAddr.getPort()));
+    SecurityUtil.setTokenService(appToken, schedulerAddr);
     currentUser.addToken(appToken);
-
+    SecurityUtil.setTokenService(appToken, schedulerAddr);
+    
     AMRMProtocol scheduler = currentUser
         .doAs(new PrivilegedAction<AMRMProtocol>() {
           @Override

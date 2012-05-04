@@ -339,12 +339,12 @@ public interface MRJobConfig {
   /** The amount of memory the MR app master needs.*/
   public static final String MR_AM_VMEM_MB =
     MR_AM_PREFIX+"resource.mb";
-  public static final int DEFAULT_MR_AM_VMEM_MB = 2048;
+  public static final int DEFAULT_MR_AM_VMEM_MB = 1536;
 
   /** Command line arguments passed to the MR app master.*/
   public static final String MR_AM_COMMAND_OPTS =
     MR_AM_PREFIX+"command-opts";
-  public static final String DEFAULT_MR_AM_COMMAND_OPTS = "-Xmx1536m";
+  public static final String DEFAULT_MR_AM_COMMAND_OPTS = "-Xmx1024m";
 
   /** Root Logging level passed to the MR app master.*/
   public static final String MR_AM_LOG_LEVEL = 
@@ -371,6 +371,13 @@ public interface MRJobConfig {
     MR_AM_PREFIX + "job.client.thread-count";
   public static final int DEFAULT_MR_AM_JOB_CLIENT_THREAD_COUNT = 1;
 
+  /** 
+   * Range of ports that the MapReduce AM can use when binding. Leave blank
+   * if you want all possible ports.
+   */
+  public static final String MR_AM_JOB_CLIENT_PORT_RANGE = 
+    MR_AM_PREFIX + "job.client.port-range";
+  
   /** Enable blacklisting of nodes in the job.*/
   public static final String MR_AM_JOB_NODE_BLACKLISTING_ENABLE = 
     MR_AM_PREFIX  + "job.node-blacklisting.enable";
