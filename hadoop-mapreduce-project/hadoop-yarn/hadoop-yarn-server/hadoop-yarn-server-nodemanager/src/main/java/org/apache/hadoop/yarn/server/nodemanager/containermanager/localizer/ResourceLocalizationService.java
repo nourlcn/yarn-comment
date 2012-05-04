@@ -72,9 +72,6 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static org.apache.hadoop.fs.CreateFlag.CREATE;
-import static org.apache.hadoop.fs.CreateFlag.OVERWRITE;
-
 ////before containermanager,this service must be started.
 ////eg.create dir on local filesystem.
 
