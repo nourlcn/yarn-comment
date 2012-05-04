@@ -102,6 +102,10 @@ public class AMLauncher implements Runnable {
   private void launch() throws IOException {
     connect();
     ContainerId masterContainerID = application.getMasterContainer().getId();
+
+    ////
+    LOG.info("[ACT-HADOOP]AMLauncher.launch()");
+    
     ApplicationSubmissionContext applicationContext =
       application.getSubmissionContext();
     LOG.info("Setting up container " + application.getMasterContainer() 
@@ -111,7 +115,6 @@ public class AMLauncher implements Runnable {
     StartContainerRequest request = 
         recordFactory.newRecordInstance(StartContainerRequest.class);
     request.setContainerLaunchContext(launchContext);
-      ////maybe bug here
     containerMgrProxy.startContainer(request);
     LOG.info("Done launching container " + application.getMasterContainer() 
         + " for AM " + application.getAppAttemptId());
@@ -260,6 +263,10 @@ public class AMLauncher implements Runnable {
       try {
         LOG.info("Launching master" + application.getAppAttemptId());
         launch();
+        
+        ////
+        LOG.info("[ACT-HADOOP]Deal with RMAppAttemptEvent, handler is " + this.handler.getClass());
+        
         handler.handle(new RMAppAttemptEvent(application.getAppAttemptId(),
             RMAppAttemptEventType.LAUNCHED));
       } catch(Exception ie) {

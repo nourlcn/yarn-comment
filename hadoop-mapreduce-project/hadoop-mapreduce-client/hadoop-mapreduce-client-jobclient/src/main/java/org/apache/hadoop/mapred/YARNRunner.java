@@ -241,14 +241,12 @@ public class YARNRunner implements ClientProtocol {
     return resMgrDelegate.getTaskTrackerExpiryInterval();
   }
 
-    ////YARNRunner implements ClientProtocol;
+  ////YARNRunner implements ClientProtocol;
+  ////Return the later profile of the job
   @Override
   public JobStatus submitJob(JobID jobId, String jobSubmitDir, Credentials ts)
   throws IOException, InterruptedException {
     
-	  ////
-	  System.out.println("[ACT-HADOOP]!!!!!!!!!1Job run using YARNRunner.submitJob()!!!!!!!!!!!!!!!!!!!!!!!!");
-	  
     /* check if we have a hsproxy, if not, no need */
     MRClientProtocol hsProxy = clientCache.getInitializedHSProxy();
     if (hsProxy != null) {

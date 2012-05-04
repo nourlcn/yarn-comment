@@ -199,6 +199,10 @@ public class MRAppMaster extends CompositeService {
 
     // Job name is the same as the app name util we support DAG of jobs
     // for an app later
+    
+    LOG.info("[ACT-HADOOP]MRAppMaster.init(), to launch a MR application.");
+    
+    
     appName = conf.get(MRJobConfig.JOB_NAME, "<missing app name>");
 
     conf.setInt(MRJobConfig.APPLICATION_ATTEMPT_ID, appAttemptID.getAttemptId());
@@ -1001,6 +1005,9 @@ public class MRAppMaster extends CompositeService {
       // SIGTERM I have a chance to write out the job history. I'll be closing
       // the objects myself.
       conf.setBoolean("fs.automatic.close", false);
+      ////
+      LOG.info("[ACT-Hadoop]MRAppMaster.main()");
+      
       initAndStartAppMaster(appMaster, conf, jobUserName);
     } catch (Throwable t) {
       LOG.fatal("Error starting MRAppMaster", t);

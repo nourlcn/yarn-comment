@@ -158,6 +158,10 @@ public class ApplicationMasterService extends AbstractService implements
   public RegisterApplicationMasterResponse registerApplicationMaster(
       RegisterApplicationMasterRequest request) throws YarnRemoteException {
 
+	  ////
+	  LOG.info("[ACT-HADOOP]ApplicationMasterService.registerApplicationMaster(), Who call this method ?");
+	  
+	  
     ApplicationAttemptId applicationAttemptId = request
         .getApplicationAttemptId();
     authorizeRequest(applicationAttemptId);
@@ -181,6 +185,7 @@ public class ApplicationMasterService extends AbstractService implements
       LOG.info("AM registration " + applicationAttemptId);
       this.amLivelinessMonitor.receivedPing(applicationAttemptId);
 
+      ////transaction: launched---registered-->running
       this.rmContext.getDispatcher().getEventHandler().handle(
           new RMAppAttemptRegistrationEvent(applicationAttemptId, request
               .getHost(), request.getRpcPort(), request.getTrackingUrl()));
