@@ -191,6 +191,8 @@ public class MRAppMaster extends CompositeService {
   @Override
   public void init(final Configuration conf) {
 
+	  LOG.info("[ACT-HADOOP] AppMaster.init()");
+	  
     conf.setBoolean(Dispatcher.DISPATCHER_EXIT_ON_ERROR_KEY, true);
 
     downloadTokensAndSetupUGI(conf);
@@ -316,6 +318,7 @@ public class MRAppMaster extends CompositeService {
         + conf.get("mapred.output.committer.class"));
 
     if (newApiCommitter) {
+    	LOG.info("[ACT-HADOOP] New API committer!!");
       org.apache.hadoop.mapreduce.v2.api.records.TaskId taskID = MRBuilderUtils
           .newTaskId(jobId, 0, TaskType.MAP);
       org.apache.hadoop.mapreduce.v2.api.records.TaskAttemptId attemptID = MRBuilderUtils
@@ -331,6 +334,7 @@ public class MRAppMaster extends CompositeService {
         throw new YarnException(e);
       }
     } else {
+    	LOG.info("[ACT-HADOOP] Old API committer!!");
       committer = ReflectionUtils.newInstance(conf.getClass(
           "mapred.output.committer.class", FileOutputCommitter.class,
           org.apache.hadoop.mapred.OutputCommitter.class), conf);
@@ -817,6 +821,9 @@ public class MRAppMaster extends CompositeService {
 
     // End of creating the job.
 
+    ////
+    LOG.info("[ACT-HADOOP] MRAppMaster.start() - End of creating job");
+    
     // Send out an MR AM inited event for this AM and all previous AMs.
     for (AMInfo info : amInfos) {
       dispatcher.getEventHandler().handle(
@@ -878,6 +885,8 @@ public class MRAppMaster extends CompositeService {
     /** create a job-start event to get this ball rolling */
     JobEvent startJobEvent = new JobEvent(job.getID(), JobEventType.JOB_START);
     /** send the job-start event. this triggers the job execution. */
+    ////
+    LOG.info("[ACT-HADOOP] JobEventType.JOB_START envent handler is " + dispatcher.getEventHandler().toString());
     dispatcher.getEventHandler().handle(startJobEvent);
   }
 

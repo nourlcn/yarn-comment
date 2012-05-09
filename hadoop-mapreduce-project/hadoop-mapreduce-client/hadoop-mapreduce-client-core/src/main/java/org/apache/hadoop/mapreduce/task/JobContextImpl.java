@@ -72,7 +72,7 @@ public class JobContextImpl implements JobContext {
       this.ugi = UserGroupInformation.getCurrentUser();
     } catch (IOException e) {
       throw new RuntimeException(e);
-    }
+    }  
   }
 
   /**
