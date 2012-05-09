@@ -39,6 +39,9 @@ Release 0.23.3 - UNRELEASED
 
   OPTIMIZATIONS
 
+    MAPREDUCE-3850. Avoid redundant calls for tokens in TokenCache (Daryn
+    Sharp via bobby)
+
   BUG FIXES
 
     MAPREDUCE-4092.  commitJob Exception does not fail job (Jon Eagles via
@@ -170,6 +173,18 @@ Release 0.23.3 - UNRELEASED
     masked in the RM app page (Jonathan Eagles via bobby)
 
     MAPREDUCE-4163. consistently set the bind address (Daryn Sharp via bobby)
+
+    MAPREDUCE-4048. NullPointerException exception while accessing the
+    Application Master UI (Devaraj K via bobby)
+
+    MAPREDUCE-4220. RM apps page starttime/endtime sorts are incorrect
+    (Jonathan Eagles via bobby)
+
+    MAPREDUCE-4226. ConcurrentModificationException in FileSystemCounterGroup.
+    (tomwhite)
+
+    MAPREDUCE-4215. RM app page shows 500 error on appid parse error 
+    (Jonathon Eagles via tgraves)
 
 Release 0.23.2 - UNRELEASED
 
