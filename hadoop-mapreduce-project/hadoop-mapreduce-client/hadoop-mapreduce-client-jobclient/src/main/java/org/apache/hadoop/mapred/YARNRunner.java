@@ -44,7 +44,6 @@ import org.apache.hadoop.mapreduce.protocol.ClientProtocol;
 import org.apache.hadoop.mapreduce.security.token.delegation.DelegationTokenIdentifier;
 import org.apache.hadoop.mapreduce.v2.LogParams;
 import org.apache.hadoop.mapreduce.v2.api.MRClientProtocol;
-import org.apache.hadoop.mapreduce.v2.api.MRDelegationTokenIdentifier;
 import org.apache.hadoop.mapreduce.v2.api.protocolrecords.GetDelegationTokenRequest;
 import org.apache.hadoop.mapreduce.v2.jobhistory.JobHistoryUtils;
 import org.apache.hadoop.mapreduce.v2.util.MRApps;
@@ -61,6 +60,7 @@ import org.apache.hadoop.yarn.factories.RecordFactory;
 import org.apache.hadoop.yarn.factory.providers.RecordFactoryProvider;
 import org.apache.hadoop.yarn.util.BuilderUtils;
 import org.apache.hadoop.yarn.util.ConverterUtils;
+import org.apache.hadoop.yarn.util.ProtoUtils;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -165,7 +165,7 @@ public class YARNRunner implements ClientProtocol {
     return resMgrDelegate.getClusterMetrics();
   }
 
-  private Token<MRDelegationTokenIdentifier> getDelegationTokenFromHS(
+  private Token<?> getDelegationTokenFromHS(
       MRClientProtocol hsProxy, Text renewer) throws IOException,
       InterruptedException {
     GetDelegationTokenRequest request = recordFactory
@@ -173,10 +173,8 @@ public class YARNRunner implements ClientProtocol {
     request.setRenewer(renewer.toString());
     DelegationToken mrDelegationToken = hsProxy.getDelegationToken(request)
       .getDelegationToken();
-    return new Token<MRDelegationTokenIdentifier>(mrDelegationToken
-      .getIdentifier().array(), mrDelegationToken.getPassword().array(),
-      new Text(mrDelegationToken.getKind()), new Text(
-        mrDelegationToken.getService()));
+    return ProtoUtils.convertFromProtoFormat(mrDelegationToken,
+                                             hsProxy.getConnectAddress());
   }
   
   @Override
