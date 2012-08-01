@@ -1103,6 +1103,7 @@ public class JobImpl implements org.apache.hadoop.mapreduce.v2.app.job.Job,
 
     protected TaskSplitMetaInfo[] createSplits(JobImpl job, JobId jobId) {
       TaskSplitMetaInfo[] allTaskSplitMetaInfo;
+      LOG.info("[ACT-HADOOP]!!!!JobImpl.TaskSplitMetaInfo[]   Create Task Split");
       try {
         allTaskSplitMetaInfo = SplitMetaInfoReader.readSplitMetaInfo(
             job.oldJobId, job.fs, 

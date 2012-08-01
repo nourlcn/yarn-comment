@@ -24,6 +24,7 @@ import junit.framework.Assert;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.MRJobConfig;
+import org.apache.hadoop.mapreduce.v2.app.job.Job;
 import org.apache.hadoop.mapreduce.v2.util.MRApps;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.yarn.api.records.ApplicationAttemptId;
@@ -51,7 +52,14 @@ public class TestMRAppMaster {
     MRAppMaster.initAndStartAppMaster(appMaster, conf, userName);
     Assert.assertEquals(stagingDir + Path.SEPARATOR + userName + Path.SEPARATOR
         + ".staging", appMaster.stagingDirPath.toString());
+    
+    appMaster.start();
+//    Job job = appMaster.createJob((Configuration) conf);
+//    System.out.print (job.getClass().toString());
+    
+//    System.out.println(appMaster.getDispatcher());
   }
+  
 }
 
 class MRAppMasterTest extends MRAppMaster {
